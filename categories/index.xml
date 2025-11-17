@@ -6,8 +6,29 @@
     <description>Recent content in Categories on Braxton Wolfes Sports Blog</description>
     <generator>Hugo</generator>
     <language>en-US</language>
-    <lastBuildDate>Tue, 01 Dec 2020 21:13:14 -0500</lastBuildDate>
+    <lastBuildDate>Mon, 17 Nov 2025 00:00:00 +0000</lastBuildDate>
     <atom:link href="/categories/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Basketball</title>
+      <link>/categories/basketball/</link>
+      <pubDate>Mon, 17 Nov 2025 00:00:00 +0000</pubDate>
+      <guid>/categories/basketball/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Defense</title>
+      <link>/categories/defense/</link>
+      <pubDate>Mon, 17 Nov 2025 00:00:00 +0000</pubDate>
+      <guid>/categories/defense/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>NBA</title>
+      <link>/categories/nba/</link>
+      <pubDate>Mon, 17 Nov 2025 00:00:00 +0000</pubDate>
+      <guid>/categories/nba/</guid>
+      <description></description>
+    </item>
     <item>
       <title>R</title>
       <link>/categories/r/</link>

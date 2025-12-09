@@ -60,7 +60,7 @@
 
   <article class="article">
     
-    <span class="article-duration">10 min read</span>
+    <span class="article-duration">12 min read</span>
     
 
     <h1 class="article-title">NBA Back-to-Back Analysis</h1>
@@ -75,39 +75,116 @@
 <p>The NBA has one of the more rigorous schedules in all of sports. With there being so many games in a season, back to backs are critical to get an entire season to fit in the window of time that they have. Even though they are necessary, back to backs have caught quite a bit of flack from the audience and the effect it has on the game. We are going to dive into the data on back to backs in the NBA and see how they affect teams play, while comparing it to their other performances with rest involved.</p>
 <p>For the first chart, I wanted to look into offense, and the effect a back to back has on players&rsquo; stamina and offensive statistics. In order to condense this chart and make it more of a regional comparison, I decided to group each division together and look at the difference in PPG for each division on the second night of a back to back, and compare that to having rest the day before.</p>
 <h2 id="division-scoring-on-back-to-backs">Division Scoring on Back-to-Backs</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#75715e"># Load combined data</span>
-</span></span><span style="display:flex;"><span>nba_data <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">read.csv</span>(<span style="color:#e6db74">&#34;/Users/braxtonwolfe/Documents/nba_all_data.csv&#34;</span>)
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#75715e"># NBA Division PPG - FIXED for RStudio Viewer</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># This should display bars properly</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">library</span>(tidyverse)
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">library</span>(lubridate)
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">setwd</span>(<span style="color:#e6db74">&#34;~/Documents&#34;</span>)
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Process data</span>
-</span></span><span style="display:flex;"><span>nba_data<span style="color:#f92672">$</span>Date <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">ymd</span>(nba_data<span style="color:#f92672">$</span>Date)
-</span></span><span style="display:flex;"><span>nba_data<span style="color:#f92672">$</span>Points <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">as.numeric</span>(nba_data<span style="color:#f92672">$</span>Points)
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Load data</span>
+</span></span><span style="display:flex;"><span>all_teams <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">list</span>(
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">list</span>(file <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Teamdata1.csv&#34;</span>, rank <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>), <span style="color:#a6e22e">list</span>(file <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Teamdata2.csv&#34;</span>, rank <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>),
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">list</span>(file <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Teamdata3.csv&#34;</span>, rank <span style="color:#f92672">=</span> <span style="color:#ae81ff">3</span>), <span style="color:#a6e22e">list</span>(file <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Teamdata4.csv&#34;</span>, rank <span style="color:#f92672">=</span> <span style="color:#ae81ff">4</span>),
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">list</span>(file <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Teamdata5.csv&#34;</span>, rank <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>), <span style="color:#a6e22e">list</span>(file <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Teamdata6.csv&#34;</span>, rank <span style="color:#f92672">=</span> <span style="color:#ae81ff">6</span>),
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">list</span>(file <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Teamdata7.csv&#34;</span>, rank <span style="color:#f92672">=</span> <span style="color:#ae81ff">7</span>), <span style="color:#a6e22e">list</span>(file <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Teamdata8.csv&#34;</span>, rank <span style="color:#f92672">=</span> <span style="color:#ae81ff">8</span>),
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">list</span>(file <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Teamdata9.csv&#34;</span>, rank <span style="color:#f92672">=</span> <span style="color:#ae81ff">9</span>), <span style="color:#a6e22e">list</span>(file <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Teamdata10.csv&#34;</span>, rank <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>),
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">list</span>(file <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Teamdata11.csv&#34;</span>, rank <span style="color:#f92672">=</span> <span style="color:#ae81ff">11</span>), <span style="color:#a6e22e">list</span>(file <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Teamdata12.csv&#34;</span>, rank <span style="color:#f92672">=</span> <span style="color:#ae81ff">12</span>),
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">list</span>(file <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Teamdata13.csv&#34;</span>, rank <span style="color:#f92672">=</span> <span style="color:#ae81ff">13</span>), <span style="color:#a6e22e">list</span>(file <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Teamdata14.csv&#34;</span>, rank <span style="color:#f92672">=</span> <span style="color:#ae81ff">14</span>),
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">list</span>(file <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Teamdata15.csv&#34;</span>, rank <span style="color:#f92672">=</span> <span style="color:#ae81ff">15</span>), <span style="color:#a6e22e">list</span>(file <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Teamdata16.csv&#34;</span>, rank <span style="color:#f92672">=</span> <span style="color:#ae81ff">16</span>),
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">list</span>(file <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Teamdata17.csv&#34;</span>, rank <span style="color:#f92672">=</span> <span style="color:#ae81ff">17</span>), <span style="color:#a6e22e">list</span>(file <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Teamdata18.csv&#34;</span>, rank <span style="color:#f92672">=</span> <span style="color:#ae81ff">18</span>),
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">list</span>(file <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Teamdata19.csv&#34;</span>, rank <span style="color:#f92672">=</span> <span style="color:#ae81ff">19</span>), <span style="color:#a6e22e">list</span>(file <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Teamdata20.csv&#34;</span>, rank <span style="color:#f92672">=</span> <span style="color:#ae81ff">20</span>),
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">list</span>(file <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Teamdata21.csv&#34;</span>, rank <span style="color:#f92672">=</span> <span style="color:#ae81ff">21</span>), <span style="color:#a6e22e">list</span>(file <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Trailblazersdata.csv&#34;</span>, rank <span style="color:#f92672">=</span> <span style="color:#ae81ff">22</span>),
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">list</span>(file <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;sunsdata.csv&#34;</span>, rank <span style="color:#f92672">=</span> <span style="color:#ae81ff">23</span>), <span style="color:#a6e22e">list</span>(file <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;raptorsdata.csv&#34;</span>, rank <span style="color:#f92672">=</span> <span style="color:#ae81ff">24</span>),
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">list</span>(file <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;76ersdata.csv&#34;</span>, rank <span style="color:#f92672">=</span> <span style="color:#ae81ff">25</span>), <span style="color:#a6e22e">list</span>(file <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;netsdata.csv&#34;</span>, rank <span style="color:#f92672">=</span> <span style="color:#ae81ff">26</span>),
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">list</span>(file <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;JazzData.csv&#34;</span>, rank <span style="color:#f92672">=</span> <span style="color:#ae81ff">27</span>), <span style="color:#a6e22e">list</span>(file <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;HornetsData.csv&#34;</span>, rank <span style="color:#f92672">=</span> <span style="color:#ae81ff">28</span>),
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">list</span>(file <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;PelicansData.csv&#34;</span>, rank <span style="color:#f92672">=</span> <span style="color:#ae81ff">29</span>), <span style="color:#a6e22e">list</span>(file <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Wizardsdata.csv&#34;</span>, rank <span style="color:#f92672">=</span> <span style="color:#ae81ff">30</span>)
+</span></span><span style="display:flex;"><span>)
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Calculate B2B vs Rest</span>
-</span></span><span style="display:flex;"><span>nba_data <span style="color:#f92672">&lt;-</span> nba_data <span style="color:#f92672">%&gt;%</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">arrange</span>(Team_Rank, Date) <span style="color:#f92672">%&gt;%</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">group_by</span>(Team_Rank) <span style="color:#f92672">%&gt;%</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">mutate</span>(Days_Rest <span style="color:#f92672">=</span> <span style="color:#a6e22e">as.numeric</span>(Date <span style="color:#f92672">-</span> <span style="color:#a6e22e">lag</span>(Date))) <span style="color:#f92672">%&gt;%</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">ungroup</span>() <span style="color:#f92672">%&gt;%</span>
+</span></span><span style="display:flex;"><span>all_data <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">data.frame</span>()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span>(team_info <span style="color:#66d9ef">in</span> all_teams) {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span>(<span style="color:#f92672">!</span><span style="color:#a6e22e">file.exists</span>(team_info<span style="color:#f92672">$</span>file)) <span style="color:#66d9ef">next</span>
+</span></span><span style="display:flex;"><span>  team_data <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">read.csv</span>(team_info<span style="color:#f92672">$</span>file, skip <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>, stringsAsFactors <span style="color:#f92672">=</span> <span style="color:#66d9ef">FALSE</span>)
+</span></span><span style="display:flex;"><span>  team_data <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">data.frame</span>(
+</span></span><span style="display:flex;"><span>    Date <span style="color:#f92672">=</span> team_data[, <span style="color:#ae81ff">3</span>], Points <span style="color:#f92672">=</span> team_data[, <span style="color:#ae81ff">7</span>]
+</span></span><span style="display:flex;"><span>  ) <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">filter</span>(<span style="color:#f92672">!</span><span style="color:#a6e22e">is.na</span>(Date) <span style="color:#f92672">&amp;</span> Date <span style="color:#f92672">!=</span> <span style="color:#e6db74">&#34;&#34;</span>) <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">mutate</span>(Team_Rank <span style="color:#f92672">=</span> team_info<span style="color:#f92672">$</span>rank)
+</span></span><span style="display:flex;"><span>  all_data <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">rbind</span>(all_data, team_data)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>all_data<span style="color:#f92672">$</span>Date <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">ymd</span>(all_data<span style="color:#f92672">$</span>Date)
+</span></span><span style="display:flex;"><span>all_data<span style="color:#f92672">$</span>Points <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">as.numeric</span>(all_data<span style="color:#f92672">$</span>Points)
+</span></span><span style="display:flex;"><span>all_data <span style="color:#f92672">&lt;-</span> all_data <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">arrange</span>(Team_Rank, Date)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>all_data <span style="color:#f92672">&lt;-</span> all_data <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">group_by</span>(Team_Rank) <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">mutate</span>(Days_Rest <span style="color:#f92672">=</span> <span style="color:#a6e22e">as.numeric</span>(Date <span style="color:#f92672">-</span> <span style="color:#a6e22e">lag</span>(Date))) <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">ungroup</span>() <span style="color:#f92672">|&gt;</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">mutate</span>(Game_Type <span style="color:#f92672">=</span> <span style="color:#a6e22e">ifelse</span>(Days_Rest <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>, <span style="color:#e6db74">&#34;B2B&#34;</span>, 
-</span></span><span style="display:flex;"><span>                             <span style="color:#a6e22e">ifelse</span>(Days_Rest <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">2</span>, <span style="color:#e6db74">&#34;Rest&#34;</span>, <span style="color:#66d9ef">NA</span>))) <span style="color:#f92672">%&gt;%</span>
+</span></span><span style="display:flex;"><span>                             <span style="color:#a6e22e">ifelse</span>(Days_Rest <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">2</span>, <span style="color:#e6db74">&#34;Rest&#34;</span>, <span style="color:#66d9ef">NA</span>))) <span style="color:#f92672">|&gt;</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">filter</span>(<span style="color:#f92672">!</span><span style="color:#a6e22e">is.na</span>(Game_Type))
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Calculate division averages</span>
-</span></span><span style="display:flex;"><span>summary_data <span style="color:#f92672">&lt;-</span> nba_data <span style="color:#f92672">%&gt;%</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">group_by</span>(Division, Game_Type) <span style="color:#f92672">%&gt;%</span>
+</span></span><span style="display:flex;"><span>divisions <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">c</span>(<span style="color:#e6db74">&#34;Northwest&#34;</span>, <span style="color:#e6db74">&#34;Atlantic&#34;</span>, <span style="color:#e6db74">&#34;Central&#34;</span>, <span style="color:#e6db74">&#34;Northwest&#34;</span>, <span style="color:#e6db74">&#34;Pacific&#34;</span>, <span style="color:#e6db74">&#34;Southwest&#34;</span>,
+</span></span><span style="display:flex;"><span>               <span style="color:#e6db74">&#34;Southwest&#34;</span>, <span style="color:#e6db74">&#34;Atlantic&#34;</span>, <span style="color:#e6db74">&#34;Northwest&#34;</span>, <span style="color:#e6db74">&#34;Pacific&#34;</span>, <span style="color:#e6db74">&#34;Central&#34;</span>, <span style="color:#e6db74">&#34;Central&#34;</span>,
+</span></span><span style="display:flex;"><span>               <span style="color:#e6db74">&#34;Central&#34;</span>, <span style="color:#e6db74">&#34;Pacific&#34;</span>, <span style="color:#e6db74">&#34;Southeast&#34;</span>, <span style="color:#e6db74">&#34;Pacific&#34;</span>, <span style="color:#e6db74">&#34;Southeast&#34;</span>, <span style="color:#e6db74">&#34;Southeast&#34;</span>,
+</span></span><span style="display:flex;"><span>               <span style="color:#e6db74">&#34;Southwest&#34;</span>, <span style="color:#e6db74">&#34;Central&#34;</span>, <span style="color:#e6db74">&#34;Southwest&#34;</span>, <span style="color:#e6db74">&#34;Northwest&#34;</span>, <span style="color:#e6db74">&#34;Pacific&#34;</span>, <span style="color:#e6db74">&#34;Atlantic&#34;</span>,
+</span></span><span style="display:flex;"><span>               <span style="color:#e6db74">&#34;Atlantic&#34;</span>, <span style="color:#e6db74">&#34;Atlantic&#34;</span>, <span style="color:#e6db74">&#34;Northwest&#34;</span>, <span style="color:#e6db74">&#34;Southeast&#34;</span>, <span style="color:#e6db74">&#34;Southwest&#34;</span>, <span style="color:#e6db74">&#34;Southeast&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>all_data<span style="color:#f92672">$</span>Division <span style="color:#f92672">&lt;-</span> divisions[all_data<span style="color:#f92672">$</span>Team_Rank]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Calculate averages</span>
+</span></span><span style="display:flex;"><span>summary_data <span style="color:#f92672">&lt;-</span> all_data <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">group_by</span>(Division, Game_Type) <span style="color:#f92672">|&gt;</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">summarise</span>(PPG <span style="color:#f92672">=</span> <span style="color:#a6e22e">mean</span>(Points, na.rm <span style="color:#f92672">=</span> <span style="color:#66d9ef">TRUE</span>), .groups <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;drop&#34;</span>)
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Create chart</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">ggplot</span>(summary_data, <span style="color:#a6e22e">aes</span>(x <span style="color:#f92672">=</span> Division, y <span style="color:#f92672">=</span> PPG, fill <span style="color:#f92672">=</span> Game_Type)) <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Make sure data is clean</span>
+</span></span><span style="display:flex;"><span>summary_data <span style="color:#f92672">&lt;-</span> summary_data <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">filter</span>(<span style="color:#f92672">!</span><span style="color:#a6e22e">is.na</span>(PPG) <span style="color:#f92672">&amp;</span> <span style="color:#f92672">!</span><span style="color:#a6e22e">is.na</span>(Division) <span style="color:#f92672">&amp;</span> <span style="color:#f92672">!</span><span style="color:#a6e22e">is.na</span>(Game_Type))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">cat</span>(<span style="color:#e6db74">&#34;\n=== PLOTTING DATA ===\n&#34;</span>)
+</span></span></code></pre></div><pre tabindex="0"><code>## 
+## === PLOTTING DATA ===
+</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">print</span>(summary_data)
+</span></span></code></pre></div><pre tabindex="0"><code>## # A tibble: 12 × 3
+##    Division  Game_Type   PPG
+##    &lt;chr&gt;     &lt;chr&gt;     &lt;dbl&gt;
+##  1 Atlantic  B2B        109.
+##  2 Atlantic  Rest       111.
+##  3 Central   B2B        110.
+##  4 Central   Rest       113.
+##  5 Northwest B2B        109.
+##  6 Northwest Rest       113.
+##  7 Pacific   B2B        117.
+##  8 Pacific   Rest       118.
+##  9 Southeast B2B        107.
+## 10 Southeast Rest       111.
+## 11 Southwest B2B        108.
+## 12 Southwest Rest       110.
+</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">cat</span>(<span style="color:#e6db74">&#34;\n&#34;</span>)
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#75715e"># Create plot - bars visible with zoomed y-axis</span>
+</span></span><span style="display:flex;"><span>p <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">ggplot</span>(summary_data, <span style="color:#a6e22e">aes</span>(x <span style="color:#f92672">=</span> Division, y <span style="color:#f92672">=</span> PPG, fill <span style="color:#f92672">=</span> Game_Type)) <span style="color:#f92672">+</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">geom_col</span>(position <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;dodge&#34;</span>, width <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.7</span>) <span style="color:#f92672">+</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">scale_fill_manual</span>(values <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#e6db74">&#34;B2B&#34;</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;#EE5A6F&#34;</span>, <span style="color:#e6db74">&#34;Rest&#34;</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;#3498DB&#34;</span>),
 </span></span><span style="display:flex;"><span>                    labels <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#e6db74">&#34;B2B&#34;</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;2nd Night B2B&#34;</span>, <span style="color:#e6db74">&#34;Rest&#34;</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;With Rest&#34;</span>)) <span style="color:#f92672">+</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">labs</span>(title <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Division Scoring: Back-to-Backs vs Rest&#34;</span>,
-</span></span><span style="display:flex;"><span>       y <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Points Per Game&#34;</span>, x <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Division&#34;</span>, fill <span style="color:#f92672">=</span> <span style="color:#66d9ef">NULL</span>) <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">scale_y_continuous</span>(breaks <span style="color:#f92672">=</span> <span style="color:#a6e22e">seq</span>(<span style="color:#ae81ff">100</span>, <span style="color:#ae81ff">120</span>, <span style="color:#ae81ff">5</span>)) <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">coord_cartesian</span>(ylim <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">100</span>, <span style="color:#ae81ff">120</span>)) <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">labs</span>(title <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Division Scoring: B2B vs Rest&#34;</span>,
+</span></span><span style="display:flex;"><span>       y <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Points Per Game&#34;</span>, 
+</span></span><span style="display:flex;"><span>       x <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Division&#34;</span>, 
+</span></span><span style="display:flex;"><span>       fill <span style="color:#f92672">=</span> <span style="color:#66d9ef">NULL</span>) <span style="color:#f92672">+</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">theme_minimal</span>(base_size <span style="color:#f92672">=</span> <span style="color:#ae81ff">14</span>) <span style="color:#f92672">+</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">theme</span>(legend.position <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;top&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">print</span>(p)
 </span></span></code></pre></div><img src="/8080/1212/08/nba-back-to-backs/index_files/figure-html/division-chart-1.png" width="1152" />
-<p>All six divisions score fewer points on the second night of back-to-backs, with some divisions affected more than others. The Pacific division maintains the highest scoring even when tired, standing out from the rest of the league.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">cat</span>(<span style="color:#e6db74">&#34;\n✓ If you see bars above, we&#39;re good!\n&#34;</span>)
+</span></span></code></pre></div><pre tabindex="0"><code>## 
+## ✓ If you see bars above, we&#39;re good!
+</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">cat</span>(<span style="color:#e6db74">&#34;✓ If not, check the saved PNG file\n&#34;</span>)
+</span></span></code></pre></div><pre tabindex="0"><code>## ✓ If not, check the saved PNG file
+</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">ggsave</span>(<span style="color:#e6db74">&#34;nba_division_ggplot_fixed.png&#34;</span>, width <span style="color:#f92672">=</span> <span style="color:#ae81ff">14</span>, height <span style="color:#f92672">=</span> <span style="color:#ae81ff">9</span>, dpi <span style="color:#f92672">=</span> <span style="color:#ae81ff">300</span>, bg <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;white&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">cat</span>(<span style="color:#e6db74">&#34;✓ Also saved as &#39;nba_division_ggplot_fixed.png&#39;\n&#34;</span>)
+</span></span></code></pre></div><pre tabindex="0"><code>## ✓ Also saved as &#39;nba_division_ggplot_fixed.png&#39;
+</code></pre><p>All six divisions score fewer points on the second night of back-to-backs, with some divisions affected more than others. The Pacific division maintains the highest scoring even when tired, standing out from the rest of the league.</p>
 <p>For this first chart, I wanted to look at one statistic in particular, which is winning percentage. In order to show a story having to do with winning percentage, I decided to look into every team&rsquo;s performances on the second night of a back to back and compare that to all of their other games in which the teams have one or more days of rest.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#75715e"># NBA Back-to-Back Win Percentage - VERTICAL Dumbbell Chart</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># Teams on X-axis, Win % on Y-axis (like the example)</span>
@@ -164,26 +241,26 @@
 </span></span><span style="display:flex;"><span>    Opp_Points <span style="color:#f92672">=</span> team_data[, <span style="color:#ae81ff">8</span>]
 </span></span><span style="display:flex;"><span>  )
 </span></span><span style="display:flex;"><span>  
-</span></span><span style="display:flex;"><span>  team_data <span style="color:#f92672">&lt;-</span> team_data <span style="color:#f92672">%&gt;%</span> 
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">filter</span>(<span style="color:#f92672">!</span><span style="color:#a6e22e">is.na</span>(Date) <span style="color:#f92672">&amp;</span> Date <span style="color:#f92672">!=</span> <span style="color:#e6db74">&#34;&#34;</span>) <span style="color:#f92672">%&gt;%</span>
+</span></span><span style="display:flex;"><span>  team_data <span style="color:#f92672">&lt;-</span> team_data <span style="color:#f92672">|&gt;</span> 
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">filter</span>(<span style="color:#f92672">!</span><span style="color:#a6e22e">is.na</span>(Date) <span style="color:#f92672">&amp;</span> Date <span style="color:#f92672">!=</span> <span style="color:#e6db74">&#34;&#34;</span>) <span style="color:#f92672">|&gt;</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">mutate</span>(Team_ID <span style="color:#f92672">=</span> i)  <span style="color:#75715e"># Keep as number for now</span>
 </span></span><span style="display:flex;"><span>  
 </span></span><span style="display:flex;"><span>  all_data <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">rbind</span>(all_data, team_data)
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># Convert and calculate</span>
-</span></span><span style="display:flex;"><span>all_data <span style="color:#f92672">&lt;-</span> all_data <span style="color:#f92672">%&gt;%</span>
+</span></span><span style="display:flex;"><span>all_data <span style="color:#f92672">&lt;-</span> all_data <span style="color:#f92672">|&gt;</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">mutate</span>(
 </span></span><span style="display:flex;"><span>    Date <span style="color:#f92672">=</span> <span style="color:#a6e22e">ymd</span>(Date),
 </span></span><span style="display:flex;"><span>    Win <span style="color:#f92672">=</span> <span style="color:#a6e22e">ifelse</span>(<span style="color:#a6e22e">grepl</span>(<span style="color:#e6db74">&#34;W&#34;</span>, Result), <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>),
 </span></span><span style="display:flex;"><span>    Points <span style="color:#f92672">=</span> <span style="color:#a6e22e">as.numeric</span>(Points),
 </span></span><span style="display:flex;"><span>    Opp_Points <span style="color:#f92672">=</span> <span style="color:#a6e22e">as.numeric</span>(Opp_Points)
-</span></span><span style="display:flex;"><span>  ) <span style="color:#f92672">%&gt;%</span>
+</span></span><span style="display:flex;"><span>  ) <span style="color:#f92672">|&gt;</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">arrange</span>(Team_ID, Date)
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># Identify game types</span>
-</span></span><span style="display:flex;"><span>all_data <span style="color:#f92672">&lt;-</span> all_data <span style="color:#f92672">%&gt;%</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">group_by</span>(Team_ID) <span style="color:#f92672">%&gt;%</span>
+</span></span><span style="display:flex;"><span>all_data <span style="color:#f92672">&lt;-</span> all_data <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">group_by</span>(Team_ID) <span style="color:#f92672">|&gt;</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">mutate</span>(
 </span></span><span style="display:flex;"><span>    Days_Rest <span style="color:#f92672">=</span> <span style="color:#a6e22e">as.numeric</span>(Date <span style="color:#f92672">-</span> <span style="color:#a6e22e">lag</span>(Date)),
 </span></span><span style="display:flex;"><span>    Game_Type <span style="color:#f92672">=</span> <span style="color:#a6e22e">case_when</span>(
@@ -191,26 +268,26 @@
 </span></span><span style="display:flex;"><span>      Days_Rest <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">~</span> <span style="color:#e6db74">&#34;Rest&#34;</span>,
 </span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">TRUE</span> <span style="color:#f92672">~</span> <span style="color:#66d9ef">NA_character_</span>
 </span></span><span style="display:flex;"><span>    )
-</span></span><span style="display:flex;"><span>  ) <span style="color:#f92672">%&gt;%</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">filter</span>(<span style="color:#f92672">!</span><span style="color:#a6e22e">is.na</span>(Game_Type)) <span style="color:#f92672">%&gt;%</span>
+</span></span><span style="display:flex;"><span>  ) <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">filter</span>(<span style="color:#f92672">!</span><span style="color:#a6e22e">is.na</span>(Game_Type)) <span style="color:#f92672">|&gt;</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">ungroup</span>()
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># Calculate win % for each team</span>
-</span></span><span style="display:flex;"><span>team_summary <span style="color:#f92672">&lt;-</span> all_data <span style="color:#f92672">%&gt;%</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">group_by</span>(Team_ID, Game_Type) <span style="color:#f92672">%&gt;%</span>
+</span></span><span style="display:flex;"><span>team_summary <span style="color:#f92672">&lt;-</span> all_data <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">group_by</span>(Team_ID, Game_Type) <span style="color:#f92672">|&gt;</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">summarise</span>(
 </span></span><span style="display:flex;"><span>    Games <span style="color:#f92672">=</span> <span style="color:#a6e22e">n</span>(),
 </span></span><span style="display:flex;"><span>    Win_Pct <span style="color:#f92672">=</span> <span style="color:#a6e22e">mean</span>(Win) <span style="color:#f92672">*</span> <span style="color:#ae81ff">100</span>,
 </span></span><span style="display:flex;"><span>    .groups <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;drop&#34;</span>
-</span></span><span style="display:flex;"><span>  ) <span style="color:#f92672">%&gt;%</span>
+</span></span><span style="display:flex;"><span>  ) <span style="color:#f92672">|&gt;</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">pivot_wider</span>(names_from <span style="color:#f92672">=</span> Game_Type, values_from <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(Games, Win_Pct))
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># Add team names and calculate gap</span>
-</span></span><span style="display:flex;"><span>team_summary <span style="color:#f92672">&lt;-</span> team_summary <span style="color:#f92672">%&gt;%</span>
+</span></span><span style="display:flex;"><span>team_summary <span style="color:#f92672">&lt;-</span> team_summary <span style="color:#f92672">|&gt;</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">mutate</span>(
 </span></span><span style="display:flex;"><span>    Team_Name <span style="color:#f92672">=</span> team_names[Team_ID],
 </span></span><span style="display:flex;"><span>    Gap <span style="color:#f92672">=</span> Win_Pct_Rest <span style="color:#f92672">-</span> Win_Pct_B2B
-</span></span><span style="display:flex;"><span>  ) <span style="color:#f92672">%&gt;%</span>
+</span></span><span style="display:flex;"><span>  ) <span style="color:#f92672">|&gt;</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">arrange</span>(<span style="color:#a6e22e">desc</span>(Gap))
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#a6e22e">cat</span>(<span style="color:#a6e22e">sprintf</span>(<span style="color:#e6db74">&#34;\n=== Data Check ===\n&#34;</span>))
@@ -312,25 +389,25 @@
 </span></span><span style="display:flex;"><span>    Opp_Points <span style="color:#f92672">=</span> team_data[, <span style="color:#ae81ff">8</span>]
 </span></span><span style="display:flex;"><span>  )
 </span></span><span style="display:flex;"><span>  
-</span></span><span style="display:flex;"><span>  team_data <span style="color:#f92672">&lt;-</span> team_data <span style="color:#f92672">%&gt;%</span> 
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">filter</span>(<span style="color:#f92672">!</span><span style="color:#a6e22e">is.na</span>(Date) <span style="color:#f92672">&amp;</span> Date <span style="color:#f92672">!=</span> <span style="color:#e6db74">&#34;&#34;</span>) <span style="color:#f92672">%&gt;%</span>
+</span></span><span style="display:flex;"><span>  team_data <span style="color:#f92672">&lt;-</span> team_data <span style="color:#f92672">|&gt;</span> 
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">filter</span>(<span style="color:#f92672">!</span><span style="color:#a6e22e">is.na</span>(Date) <span style="color:#f92672">&amp;</span> Date <span style="color:#f92672">!=</span> <span style="color:#e6db74">&#34;&#34;</span>) <span style="color:#f92672">|&gt;</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">mutate</span>(Team_ID <span style="color:#f92672">=</span> i)
 </span></span><span style="display:flex;"><span>  
 </span></span><span style="display:flex;"><span>  all_data <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">rbind</span>(all_data, team_data)
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># Process data</span>
-</span></span><span style="display:flex;"><span>all_data <span style="color:#f92672">&lt;-</span> all_data <span style="color:#f92672">%&gt;%</span>
+</span></span><span style="display:flex;"><span>all_data <span style="color:#f92672">&lt;-</span> all_data <span style="color:#f92672">|&gt;</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">mutate</span>(
 </span></span><span style="display:flex;"><span>    Date <span style="color:#f92672">=</span> <span style="color:#a6e22e">ymd</span>(Date),
 </span></span><span style="display:flex;"><span>    Points <span style="color:#f92672">=</span> <span style="color:#a6e22e">as.numeric</span>(Points),
 </span></span><span style="display:flex;"><span>    Opp_Points <span style="color:#f92672">=</span> <span style="color:#a6e22e">as.numeric</span>(Opp_Points)
-</span></span><span style="display:flex;"><span>  ) <span style="color:#f92672">%&gt;%</span>
+</span></span><span style="display:flex;"><span>  ) <span style="color:#f92672">|&gt;</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">arrange</span>(Team_ID, Date)
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># Calculate rest and metrics</span>
-</span></span><span style="display:flex;"><span>all_data <span style="color:#f92672">&lt;-</span> all_data <span style="color:#f92672">%&gt;%</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">group_by</span>(Team_ID) <span style="color:#f92672">%&gt;%</span>
+</span></span><span style="display:flex;"><span>all_data <span style="color:#f92672">&lt;-</span> all_data <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">group_by</span>(Team_ID) <span style="color:#f92672">|&gt;</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">mutate</span>(
 </span></span><span style="display:flex;"><span>    Days_Rest <span style="color:#f92672">=</span> <span style="color:#a6e22e">as.numeric</span>(Date <span style="color:#f92672">-</span> <span style="color:#a6e22e">lag</span>(Date)),
 </span></span><span style="display:flex;"><span>    Game_Type <span style="color:#f92672">=</span> <span style="color:#a6e22e">case_when</span>(
@@ -338,8 +415,8 @@
 </span></span><span style="display:flex;"><span>      Days_Rest <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">~</span> <span style="color:#e6db74">&#34;Rest&#34;</span>,
 </span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">TRUE</span> <span style="color:#f92672">~</span> <span style="color:#66d9ef">NA_character_</span>
 </span></span><span style="display:flex;"><span>    )
-</span></span><span style="display:flex;"><span>  ) <span style="color:#f92672">%&gt;%</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">filter</span>(<span style="color:#f92672">!</span><span style="color:#a6e22e">is.na</span>(Game_Type)) <span style="color:#f92672">%&gt;%</span>
+</span></span><span style="display:flex;"><span>  ) <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">filter</span>(<span style="color:#f92672">!</span><span style="color:#a6e22e">is.na</span>(Game_Type)) <span style="color:#f92672">|&gt;</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">ungroup</span>()
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># Add divisions</span>
@@ -352,17 +429,17 @@
 </span></span><span style="display:flex;"><span>all_data<span style="color:#f92672">$</span>Division <span style="color:#f92672">&lt;-</span> divisions[all_data<span style="color:#f92672">$</span>Team_ID]
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># Calculate division metrics - FIXED</span>
-</span></span><span style="display:flex;"><span>division_summary <span style="color:#f92672">&lt;-</span> all_data <span style="color:#f92672">%&gt;%</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">group_by</span>(Division, Game_Type) <span style="color:#f92672">%&gt;%</span>
+</span></span><span style="display:flex;"><span>division_summary <span style="color:#f92672">&lt;-</span> all_data <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">group_by</span>(Division, Game_Type) <span style="color:#f92672">|&gt;</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">summarise</span>(
 </span></span><span style="display:flex;"><span>    Avg_Points <span style="color:#f92672">=</span> <span style="color:#a6e22e">mean</span>(Points, na.rm <span style="color:#f92672">=</span> <span style="color:#66d9ef">TRUE</span>),
 </span></span><span style="display:flex;"><span>    Avg_Opp_Points <span style="color:#f92672">=</span> <span style="color:#a6e22e">mean</span>(Opp_Points, na.rm <span style="color:#f92672">=</span> <span style="color:#66d9ef">TRUE</span>),
 </span></span><span style="display:flex;"><span>    .groups <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;drop&#34;</span>
-</span></span><span style="display:flex;"><span>  ) <span style="color:#f92672">%&gt;%</span>
+</span></span><span style="display:flex;"><span>  ) <span style="color:#f92672">|&gt;</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">pivot_wider</span>(
 </span></span><span style="display:flex;"><span>    names_from <span style="color:#f92672">=</span> Game_Type,
 </span></span><span style="display:flex;"><span>    values_from <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(Avg_Points, Avg_Opp_Points)
-</span></span><span style="display:flex;"><span>  ) <span style="color:#f92672">%&gt;%</span>
+</span></span><span style="display:flex;"><span>  ) <span style="color:#f92672">|&gt;</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">mutate</span>(
 </span></span><span style="display:flex;"><span>    Scoring_Drop <span style="color:#f92672">=</span> Avg_Points_B2B <span style="color:#f92672">-</span> Avg_Points_Rest,
 </span></span><span style="display:flex;"><span>    Defense_Drop <span style="color:#f92672">=</span> Avg_Opp_Points_B2B <span style="color:#f92672">-</span> Avg_Opp_Points_Rest

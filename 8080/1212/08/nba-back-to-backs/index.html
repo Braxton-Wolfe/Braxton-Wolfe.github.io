@@ -74,8 +74,8 @@
       <h2 id="introduction">Introduction</h2>
 <p>The NBA has one of the more rigorous schedules in all of sports. With there being so many games in a season, back to backs are critical to get an entire season to fit in the window of time that they have. Even though they are necessary, back to backs have caught quite a bit of flack from the audience and the effect it has on the game. We are going to dive into the data on back to backs in the NBA and see how they affect teams play, while comparing it to their other performances with rest involved.</p>
 <p>For the first chart, I wanted to look into offense, and the effect a back to back has on players&rsquo; stamina and offensive statistics. In order to condense this chart and make it more of a regional comparison, I decided to group each division together and look at the difference in PPG for each division on the second night of a back to back, and compare that to having rest the day before.</p>
-<h2 id="division-scoring-on-back-to-backs">Division Scoring on Back-to-Backs</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#75715e"># NBA Division PPG - FIXED for RStudio Viewer</span>
+<h2 id="scoring-rises-with-rest">Scoring rises with rest</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#75715e"># Scoring is down without rest - FIXED for RStudio Viewer</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># This should display bars properly</span>
 </span></span><span style="display:flex;"><span><span style="color:#a6e22e">library</span>(tidyverse)
 </span></span><span style="display:flex;"><span><span style="color:#a6e22e">library</span>(lubridate)
@@ -167,7 +167,7 @@
 </span></span><span style="display:flex;"><span>                    labels <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#e6db74">&#34;B2B&#34;</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;2nd Night B2B&#34;</span>, <span style="color:#e6db74">&#34;Rest&#34;</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;With Rest&#34;</span>)) <span style="color:#f92672">+</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">scale_y_continuous</span>(breaks <span style="color:#f92672">=</span> <span style="color:#a6e22e">seq</span>(<span style="color:#ae81ff">100</span>, <span style="color:#ae81ff">120</span>, <span style="color:#ae81ff">5</span>)) <span style="color:#f92672">+</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">coord_cartesian</span>(ylim <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">100</span>, <span style="color:#ae81ff">120</span>)) <span style="color:#f92672">+</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">labs</span>(title <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Division Scoring: B2B vs Rest&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">labs</span>(title <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;The more rest,the more points&#34;</span>,
 </span></span><span style="display:flex;"><span>       y <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Points Per Game&#34;</span>, 
 </span></span><span style="display:flex;"><span>       x <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Division&#34;</span>, 
 </span></span><span style="display:flex;"><span>       fill <span style="color:#f92672">=</span> <span style="color:#66d9ef">NULL</span>) <span style="color:#f92672">+</span>
@@ -186,7 +186,7 @@
 </span></span></code></pre></div><pre tabindex="0"><code>## ✓ Also saved as &#39;nba_division_ggplot_fixed.png&#39;
 </code></pre><p>All six divisions score fewer points on the second night of back-to-backs, with some divisions affected more than others. The Pacific division maintains the highest scoring even when tired, standing out from the rest of the league.</p>
 <p>For this first chart, I wanted to look at one statistic in particular, which is winning percentage. In order to show a story having to do with winning percentage, I decided to look into every team&rsquo;s performances on the second night of a back to back and compare that to all of their other games in which the teams have one or more days of rest.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#75715e"># NBA Back-to-Back Win Percentage - VERTICAL Dumbbell Chart</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#75715e"># Winning percentage is much higher with rest - VERTICAL Dumbbell Chart</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># Teams on X-axis, Win % on Y-axis (like the example)</span>
 </span></span><span style="display:flex;"><span><span style="color:#a6e22e">library</span>(tidyverse)
 </span></span><span style="display:flex;"><span><span style="color:#a6e22e">library</span>(lubridate)
@@ -328,7 +328,7 @@
 </span></span><span style="display:flex;"><span>    title <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Win Percentage: Back-to-Back vs Rest&#34;</span>,
 </span></span><span style="display:flex;"><span>    subtitle <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;2nd night of B2B vs games with rest (sorted by biggest penalty)&#34;</span>,
 </span></span><span style="display:flex;"><span>    x <span style="color:#f92672">=</span> <span style="color:#66d9ef">NULL</span>,
-</span></span><span style="display:flex;"><span>    y <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Win Percentage (%)&#34;</span>,
+</span></span><span style="display:flex;"><span>    y <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Winning problem on back to backs (%)&#34;</span>,
 </span></span><span style="display:flex;"><span>    caption <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Red = 2nd night of B2B  |  Blue = Games with rest  |  2024-25 NBA Season&#34;</span>
 </span></span><span style="display:flex;"><span>  ) <span style="color:#f92672">+</span>
 </span></span><span style="display:flex;"><span>  

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Hugo 0.152.2">
+
+
+<title>NBA Back-to-Back Analysis - Braxton Wolfes Sports Blog</title>
+<meta property="og:title" content="NBA Back-to-Back Analysis - Braxton Wolfes Sports Blog">
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/fonts.css" media="all">
+<link rel="stylesheet" href="/css/main.css" media="all">
+
+
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="header">
+        <nav class="nav">
+  <a href="/" class="nav-logo">
+    
+    <img src="/logo.png"
+         alt="Braxton Wolfes Sports Blog"
+         height="50"
+         width="50">
+    
+    <span style="margin-left: 10px; font-weight: bold; font-size: 1.2em;">Braxton Wolfes Sports Blog</span>
+  </a>
+
+  <ul class="nav-links">
+    
+    <li><a href="/about/">About</a></li>
+    
+    <li><a href="https://github.com/Braxton-Wolfe">GitHub</a></li>
+    
+    <li><a href="/">Twitter</a></li>
+    
+  </ul>
+</nav>
+      </header>
+
+
+<main class="content" role="main">
+
+  <article class="article">
+    
+    <span class="article-duration">2 min read</span>
+    
+
+    <h1 class="article-title">NBA Back-to-Back Analysis</h1>
+
+    
+    <span class="article-date">2025-12-08</span>
+    
+
+    <div class="article-content">
+      
+      <h2 id="introduction">Introduction</h2>
+<p>Back-to-back games are one of the most challenging aspects of the NBA schedule. Teams must play two games in two nights, often with travel in between. This analysis examines how back-to-backs affect team performance across all six NBA divisions.</p>
+<h2 id="division-scoring-on-back-to-backs">Division Scoring on Back-to-Backs</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#75715e"># Load combined data</span>
+</span></span><span style="display:flex;"><span>nba_data <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">read.csv</span>(<span style="color:#e6db74">&#34;/Users/braxtonwolfe/Documents/nba_all_data.csv&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Process data</span>
+</span></span><span style="display:flex;"><span>nba_data<span style="color:#f92672">$</span>Date <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">ymd</span>(nba_data<span style="color:#f92672">$</span>Date)
+</span></span><span style="display:flex;"><span>nba_data<span style="color:#f92672">$</span>Points <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">as.numeric</span>(nba_data<span style="color:#f92672">$</span>Points)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Calculate B2B vs Rest</span>
+</span></span><span style="display:flex;"><span>nba_data <span style="color:#f92672">&lt;-</span> nba_data <span style="color:#f92672">%&gt;%</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">arrange</span>(Team_Rank, Date) <span style="color:#f92672">%&gt;%</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">group_by</span>(Team_Rank) <span style="color:#f92672">%&gt;%</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">mutate</span>(Days_Rest <span style="color:#f92672">=</span> <span style="color:#a6e22e">as.numeric</span>(Date <span style="color:#f92672">-</span> <span style="color:#a6e22e">lag</span>(Date))) <span style="color:#f92672">%&gt;%</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">ungroup</span>() <span style="color:#f92672">%&gt;%</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">mutate</span>(Game_Type <span style="color:#f92672">=</span> <span style="color:#a6e22e">ifelse</span>(Days_Rest <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>, <span style="color:#e6db74">&#34;B2B&#34;</span>, 
+</span></span><span style="display:flex;"><span>                             <span style="color:#a6e22e">ifelse</span>(Days_Rest <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">2</span>, <span style="color:#e6db74">&#34;Rest&#34;</span>, <span style="color:#66d9ef">NA</span>))) <span style="color:#f92672">%&gt;%</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">filter</span>(<span style="color:#f92672">!</span><span style="color:#a6e22e">is.na</span>(Game_Type))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Calculate division averages</span>
+</span></span><span style="display:flex;"><span>summary_data <span style="color:#f92672">&lt;-</span> nba_data <span style="color:#f92672">%&gt;%</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">group_by</span>(Division, Game_Type) <span style="color:#f92672">%&gt;%</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">summarise</span>(PPG <span style="color:#f92672">=</span> <span style="color:#a6e22e">mean</span>(Points, na.rm <span style="color:#f92672">=</span> <span style="color:#66d9ef">TRUE</span>), .groups <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;drop&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Create chart</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">ggplot</span>(summary_data, <span style="color:#a6e22e">aes</span>(x <span style="color:#f92672">=</span> Division, y <span style="color:#f92672">=</span> PPG, fill <span style="color:#f92672">=</span> Game_Type)) <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">geom_col</span>(position <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;dodge&#34;</span>, width <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.7</span>) <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">scale_fill_manual</span>(values <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#e6db74">&#34;B2B&#34;</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;#EE5A6F&#34;</span>, <span style="color:#e6db74">&#34;Rest&#34;</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;#3498DB&#34;</span>),
+</span></span><span style="display:flex;"><span>                    labels <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#e6db74">&#34;B2B&#34;</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;2nd Night B2B&#34;</span>, <span style="color:#e6db74">&#34;Rest&#34;</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;With Rest&#34;</span>)) <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">labs</span>(title <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Division Scoring: Back-to-Backs vs Rest&#34;</span>,
+</span></span><span style="display:flex;"><span>       y <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Points Per Game&#34;</span>, x <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Division&#34;</span>, fill <span style="color:#f92672">=</span> <span style="color:#66d9ef">NULL</span>) <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">theme_minimal</span>(base_size <span style="color:#f92672">=</span> <span style="color:#ae81ff">14</span>) <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">theme</span>(legend.position <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;top&#34;</span>)
+</span></span></code></pre></div><img src="/8080/1212/08/nba-back-to-backs/index_files/figure-html/division-chart-1.png" width="1152" />
+<p>All six divisions score fewer points on the second night of back-to-backs, with some divisions affected more than others. The Pacific division maintains the highest scoring even when tired.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>Back-to-back games create measurable performance drops across the NBA. This analysis demonstrates that fatigue affects all divisions, but the impact varies significantly. Schedule balance remains an important consideration for competitive fairness in the league.</p>
+
+    </div>
+  </article>
+
+  
+
+
+</main>
+
+      <footer class="footer">
+        <ul class="footer-links">
+          
+          <li>
+            <a href="https://gohugo.io/" class="footer-links-kudos">Made with <img src="/images/hugo-logo.png" alt="Img link to Hugo website" width="22" height="22"></a>
+          </li>
+        </ul>
+      </footer>
+
+    </div>
+    
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js//highlight.min.js"></script>
+
+
+
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+    
+<script src="/js/math-code.js"></script>
+<script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+
+    
+  </body>
+</html>
+

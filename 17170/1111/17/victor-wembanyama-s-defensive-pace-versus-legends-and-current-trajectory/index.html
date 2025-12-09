@@ -256,10 +256,8 @@
 <p>For this scatterplot, I wanted to focus on the Spurs defensive rating with Wembanyama on the court as well as without Wembanyama on the court, and compare that to the rest of the defensive ratings in the NBA. Being so early into this current season, I decided to dive into the 2024-2025 season to look at these statistics. It is also worth noting that Wembanyama missed the last two months of the season, so that made for a sizable sample size in terms of the numbers both ways for the San Antonio Spurs.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#75715e"># NBA Division PPG - FIXED for RStudio Viewer</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># This should display bars properly</span>
-</span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#a6e22e">library</span>(tidyverse)
 </span></span><span style="display:flex;"><span><span style="color:#a6e22e">library</span>(lubridate)
-</span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#a6e22e">setwd</span>(<span style="color:#e6db74">&#34;~/Documents&#34;</span>)
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># Load data</span>
@@ -282,6 +280,7 @@
 </span></span><span style="display:flex;"><span>)
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>all_data <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">data.frame</span>()
+</span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span>(team_info <span style="color:#66d9ef">in</span> all_teams) {
 </span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span>(<span style="color:#f92672">!</span><span style="color:#a6e22e">file.exists</span>(team_info<span style="color:#f92672">$</span>file)) <span style="color:#66d9ef">next</span>
 </span></span><span style="display:flex;"><span>  team_data <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">read.csv</span>(team_info<span style="color:#f92672">$</span>file, skip <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>, stringsAsFactors <span style="color:#f92672">=</span> <span style="color:#66d9ef">FALSE</span>)
@@ -342,11 +341,13 @@
 ## 11 Southwest B2B        108.
 ## 12 Southwest Rest       110.
 </code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">cat</span>(<span style="color:#e6db74">&#34;\n&#34;</span>)
-</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#75715e"># Create simple plot - NO LIMITS</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#75715e"># Create plot - bars visible with zoomed y-axis</span>
 </span></span><span style="display:flex;"><span>p <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">ggplot</span>(summary_data, <span style="color:#a6e22e">aes</span>(x <span style="color:#f92672">=</span> Division, y <span style="color:#f92672">=</span> PPG, fill <span style="color:#f92672">=</span> Game_Type)) <span style="color:#f92672">+</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">geom_col</span>(position <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;dodge&#34;</span>, width <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.7</span>) <span style="color:#f92672">+</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">scale_fill_manual</span>(values <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#e6db74">&#34;B2B&#34;</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;#EE5A6F&#34;</span>, <span style="color:#e6db74">&#34;Rest&#34;</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;#3498DB&#34;</span>),
 </span></span><span style="display:flex;"><span>                    labels <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#e6db74">&#34;B2B&#34;</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;2nd Night B2B&#34;</span>, <span style="color:#e6db74">&#34;Rest&#34;</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;With Rest&#34;</span>)) <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">scale_y_continuous</span>(breaks <span style="color:#f92672">=</span> <span style="color:#a6e22e">seq</span>(<span style="color:#ae81ff">100</span>, <span style="color:#ae81ff">120</span>, <span style="color:#ae81ff">5</span>)) <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">coord_cartesian</span>(ylim <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">100</span>, <span style="color:#ae81ff">120</span>)) <span style="color:#f92672">+</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">labs</span>(title <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Division Scoring: B2B vs Rest&#34;</span>,
 </span></span><span style="display:flex;"><span>       y <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Points Per Game&#34;</span>, 
 </span></span><span style="display:flex;"><span>       x <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Division&#34;</span>, 

@@ -73,11 +73,13 @@
       
       <p>Victor Wembanyama was regarded as the best prospect to enter the NBA since Lebron James over two decades ago. A primary reason for this was his elite two way ability, specifically his ability to impact the defensive side of the ball at a level we do not see in the NBA today. While a lot of that defensive hype he has gotten is because of his extraordinary size, there are plenty of other key factors and areas that Wembanyama thrives in to make his impact felt so much on the basketball court.</p>
 <p>To begin looking into Wembanyama’s defensive impact I wanted to look at one question in two different ways. I decided to look into both simple box score statistics combined with advanced analytical statistics to answer the question: Is Victor Wembanyama on pace to become the greatest and most impactful defender the NBA has ever seen before.</p>
-<p>In my first table chart, I wanted to compare Wembanyama to some of the greatest defenders of each generation. Specifically, comparing him to some of the best defending bigs the world has ever seen. For this table chart I wanted to look at some of the advanced metrics and compare Wembanyama’s first 127 career games to these greats to see how he is stacking up to those defensive legends and figure out the trajectory he is at in claiming the most impactful defender of all time spot. In this chart, the defensive statistics that I focused on were Defensive Win Shares, Block Percentage, Defensive Rebound Percentage, and Defensive Box Plus/Minus. Quick Check</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">library</span>(tidyverse)
-</span></span></code></pre></div><pre><code>## Warning: package 'lubridate' was built under R version 4.3.3
-
-## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+<p>In my first table chart, I wanted to compare Wembanyama to some of the greatest defenders of each generation. Specifically, comparing him to some of the best defending bigs the world has ever seen. For this table chart I wanted to look at some of the advanced metrics and compare Wembanyama&rsquo;s first 127 career games to these greats to see how he is stacking up to those defensive legends and figure out the trajectory he is at in claiming the most impactful defender of all time spot. In this chart, the defensive statistics that I focused on were Defensive Win Shares, Block Percentage, Defensive Rebound Percentage, and Defensive Box Plus/Minus. Quick Check</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#75715e"># NBA Back-to-Back Win Percentage - VERTICAL Dumbbell Chart</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Teams on X-axis, Win % on Y-axis (like the example)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">library</span>(tidyverse)
+</span></span></code></pre></div><pre tabindex="0"><code>## Warning: package &#39;lubridate&#39; was built under R version 4.3.3
+</code></pre><pre tabindex="0"><code>## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
 ## ✔ dplyr     1.1.4     ✔ readr     2.1.5
 ## ✔ forcats   1.0.0     ✔ stringr   1.5.1
 ## ✔ ggplot2   3.5.1     ✔ tibble    3.2.1
@@ -87,667 +89,187 @@
 ## ✖ dplyr::filter() masks stats::filter()
 ## ✖ dplyr::lag()    masks stats::lag()
 ## ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors
-</code></pre>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">library</span>(gt)
+</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">library</span>(lubridate)
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>wemby <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">read_csv</span>(<span style="color:#e6db74">&#34;/Users/braxtonwolfe/Documents/WembyAdvanced&#34;</span>)
-</span></span></code></pre></div><pre><code>## Rows: 5 Columns: 29
-## ── Column specification ────────────────────────────────────────────────────────
-## Delimiter: &quot;,&quot;
-## chr  (6): Season, Age, Team, Lg, Pos, Awards
-## dbl (23): G, GS, MP, PER, TS%, 3PAr, FTr, ORB%, DRB%, TRB%, AST%, STL%, BLK%...
-## 
-## ℹ Use `spec()` to retrieve the full column specification for this data.
-## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
-</code></pre>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>duncan <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">read_csv</span>(<span style="color:#e6db74">&#34;/Users/braxtonwolfe/Documents/TDAdvanced&#34;</span>)
-</span></span></code></pre></div><pre><code>## Rows: 21 Columns: 29
-## ── Column specification ────────────────────────────────────────────────────────
-## Delimiter: &quot;,&quot;
-## chr  (6): Season, Age, Team, Lg, Pos, Awards
-## dbl (23): G, GS, MP, PER, TS%, 3PAr, FTr, ORB%, DRB%, TRB%, AST%, STL%, BLK%...
-## 
-## ℹ Use `spec()` to retrieve the full column specification for this data.
-## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
-</code></pre>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>hakeem <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">read_csv</span>(<span style="color:#e6db74">&#34;/Users/braxtonwolfe/Documents/HakeemAdvanced&#34;</span>)
-</span></span></code></pre></div><pre><code>## Rows: 23 Columns: 29
-## ── Column specification ────────────────────────────────────────────────────────
-## Delimiter: &quot;,&quot;
-## chr  (6): Season, Age, Team, Lg, Pos, Awards
-## dbl (23): G, GS, MP, PER, TS%, 3PAr, FTr, ORB%, DRB%, TRB%, AST%, STL%, BLK%...
-## 
-## ℹ Use `spec()` to retrieve the full column specification for this data.
-## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
-</code></pre>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>dwight <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">read_csv</span>(<span style="color:#e6db74">&#34;/Users/braxtonwolfe/Documents/DHAdvanced&#34;</span>)
-</span></span></code></pre></div><pre><code>## Rows: 20 Columns: 29
-## ── Column specification ────────────────────────────────────────────────────────
-## Delimiter: &quot;,&quot;
-## chr  (6): Season, Age, Team, Lg, Pos, Awards
-## dbl (23): G, GS, MP, PER, TS%, 3PAr, FTr, ORB%, DRB%, TRB%, AST%, STL%, BLK%...
-## 
-## ℹ Use `spec()` to retrieve the full column specification for this data.
-## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
-</code></pre>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>ad <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">read_csv</span>(<span style="color:#e6db74">&#34;/Users/braxtonwolfe/Documents/ADAdvanced&#34;</span>)
-</span></span></code></pre></div><pre><code>## Rows: 22 Columns: 29
-## ── Column specification ────────────────────────────────────────────────────────
-## Delimiter: &quot;,&quot;
-## chr  (6): Season, Age, Team, Lg, Pos, Awards
-## dbl (23): G, GS, MP, PER, TS%, 3PAr, FTr, ORB%, DRB%, TRB%, AST%, STL%, BLK%...
-## 
-## ℹ Use `spec()` to retrieve the full column specification for this data.
-## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
-</code></pre>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>get_stats <span style="color:#f92672">&lt;-</span> <span style="color:#66d9ef">function</span>(df, name, debut_year) {
-</span></span><span style="display:flex;"><span>  df <span style="color:#f92672">&lt;-</span> df <span style="color:#f92672">|&gt;</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">filter</span>(<span style="color:#f92672">!</span><span style="color:#a6e22e">str_detect</span>(Season, <span style="color:#e6db74">&#34;Yrs|Avg&#34;</span>)) <span style="color:#f92672">|&gt;</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">mutate</span>(G <span style="color:#f92672">=</span> <span style="color:#a6e22e">as.numeric</span>(G), DWS <span style="color:#f92672">=</span> <span style="color:#a6e22e">as.numeric</span>(DWS), 
-</span></span><span style="display:flex;"><span>           `BLK%` <span style="color:#f92672">=</span> <span style="color:#a6e22e">as.numeric</span>(`BLK%`), DBPM <span style="color:#f92672">=</span> <span style="color:#a6e22e">as.numeric</span>(DBPM),
-</span></span><span style="display:flex;"><span>           `DRB%` <span style="color:#f92672">=</span> <span style="color:#a6e22e">as.numeric</span>(`DRB%`), MP <span style="color:#f92672">=</span> <span style="color:#a6e22e">as.numeric</span>(MP)) <span style="color:#f92672">|&gt;</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">arrange</span>(Season) <span style="color:#f92672">|&gt;</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">mutate</span>(cum_games <span style="color:#f92672">=</span> <span style="color:#a6e22e">cumsum</span>(G))
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">setwd</span>(<span style="color:#e6db74">&#34;~/Documents&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Load data with team IDs</span>
+</span></span><span style="display:flex;"><span>team_files <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">list.files</span>(pattern <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Teamdata.*\\.csv$&#34;</span>, full.names <span style="color:#f92672">=</span> <span style="color:#66d9ef">TRUE</span>)
+</span></span><span style="display:flex;"><span>all_data <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">data.frame</span>()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span>(i <span style="color:#66d9ef">in</span> <span style="color:#ae81ff">1</span><span style="color:#f92672">:</span><span style="color:#a6e22e">length</span>(team_files)) {
+</span></span><span style="display:flex;"><span>  file <span style="color:#f92672">&lt;-</span> team_files[i]
+</span></span><span style="display:flex;"><span>  team_data <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">read.csv</span>(file, skip <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>, stringsAsFactors <span style="color:#f92672">=</span> <span style="color:#66d9ef">FALSE</span>)
 </span></span><span style="display:flex;"><span>  
-</span></span><span style="display:flex;"><span>  df_127 <span style="color:#f92672">&lt;-</span> df <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">filter</span>(cum_games <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">127</span> <span style="color:#f92672">|</span> <span style="color:#a6e22e">lag</span>(cum_games, default <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>) <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">127</span>)
-</span></span><span style="display:flex;"><span>  
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">tibble</span>(
-</span></span><span style="display:flex;"><span>    Player <span style="color:#f92672">=</span> name,
-</span></span><span style="display:flex;"><span>    Era <span style="color:#f92672">=</span> debut_year,
-</span></span><span style="display:flex;"><span>    DWS <span style="color:#f92672">=</span> <span style="color:#a6e22e">round</span>(<span style="color:#a6e22e">sum</span>(df_127<span style="color:#f92672">$</span>DWS, na.rm <span style="color:#f92672">=</span> <span style="color:#66d9ef">TRUE</span>), <span style="color:#ae81ff">1</span>),
-</span></span><span style="display:flex;"><span>    `BLK%` <span style="color:#f92672">=</span> <span style="color:#a6e22e">round</span>(<span style="color:#a6e22e">weighted.mean</span>(df_127<span style="color:#f92672">$</span>`BLK%`, df_127<span style="color:#f92672">$</span>MP, na.rm <span style="color:#f92672">=</span> <span style="color:#66d9ef">TRUE</span>), <span style="color:#ae81ff">1</span>),
-</span></span><span style="display:flex;"><span>    `DRB%` <span style="color:#f92672">=</span> <span style="color:#a6e22e">round</span>(<span style="color:#a6e22e">weighted.mean</span>(df_127<span style="color:#f92672">$</span>`DRB%`, df_127<span style="color:#f92672">$</span>MP, na.rm <span style="color:#f92672">=</span> <span style="color:#66d9ef">TRUE</span>), <span style="color:#ae81ff">1</span>),
-</span></span><span style="display:flex;"><span>    DBPM <span style="color:#f92672">=</span> <span style="color:#a6e22e">round</span>(<span style="color:#a6e22e">weighted.mean</span>(df_127<span style="color:#f92672">$</span>DBPM, df_127<span style="color:#f92672">$</span>MP, na.rm <span style="color:#f92672">=</span> <span style="color:#66d9ef">TRUE</span>), <span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>  team_data <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">data.frame</span>(
+</span></span><span style="display:flex;"><span>    Date <span style="color:#f92672">=</span> team_data[, <span style="color:#ae81ff">3</span>],
+</span></span><span style="display:flex;"><span>    Result <span style="color:#f92672">=</span> team_data[, <span style="color:#ae81ff">6</span>],
+</span></span><span style="display:flex;"><span>    Points <span style="color:#f92672">=</span> team_data[, <span style="color:#ae81ff">7</span>],
+</span></span><span style="display:flex;"><span>    Opp_Points <span style="color:#f92672">=</span> team_data[, <span style="color:#ae81ff">8</span>]
 </span></span><span style="display:flex;"><span>  )
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>  team_data <span style="color:#f92672">&lt;-</span> team_data <span style="color:#f92672">%&gt;%</span> 
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">filter</span>(<span style="color:#f92672">!</span><span style="color:#a6e22e">is.na</span>(Date) <span style="color:#f92672">&amp;</span> Date <span style="color:#f92672">!=</span> <span style="color:#e6db74">&#34;&#34;</span>) <span style="color:#f92672">%&gt;%</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">mutate</span>(Team_ID <span style="color:#f92672">=</span> <span style="color:#a6e22e">sprintf</span>(<span style="color:#e6db74">&#34;Team %d&#34;</span>, i))
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>  all_data <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">rbind</span>(all_data, team_data)
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>all_stats <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">bind_rows</span>(
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">get_stats</span>(wemby, <span style="color:#e6db74">&#34;Victor Wembanyama&#34;</span>, <span style="color:#e6db74">&#34;2023-24&#34;</span>),
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">get_stats</span>(duncan, <span style="color:#e6db74">&#34;Tim Duncan&#34;</span>, <span style="color:#e6db74">&#34;1997-98&#34;</span>),
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">get_stats</span>(hakeem, <span style="color:#e6db74">&#34;Hakeem Olajuwon&#34;</span>, <span style="color:#e6db74">&#34;1984-85&#34;</span>),
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">get_stats</span>(dwight, <span style="color:#e6db74">&#34;Dwight Howard&#34;</span>, <span style="color:#e6db74">&#34;2004-05&#34;</span>),
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">get_stats</span>(ad, <span style="color:#e6db74">&#34;Anthony Davis&#34;</span>, <span style="color:#e6db74">&#34;2012-13&#34;</span>)
-</span></span><span style="display:flex;"><span>)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>max_dws <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">max</span>(all_stats<span style="color:#f92672">$</span>DWS)
-</span></span><span style="display:flex;"><span>max_blk <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">max</span>(all_stats<span style="color:#f92672">$</span>`BLK%`)
-</span></span><span style="display:flex;"><span>max_drb <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">max</span>(all_stats<span style="color:#f92672">$</span>`DRB%`)
-</span></span><span style="display:flex;"><span>max_dbpm <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">max</span>(all_stats<span style="color:#f92672">$</span>DBPM)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>all_stats <span style="color:#f92672">&lt;-</span> all_stats <span style="color:#f92672">|&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Convert and calculate</span>
+</span></span><span style="display:flex;"><span>all_data <span style="color:#f92672">&lt;-</span> all_data <span style="color:#f92672">%&gt;%</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">mutate</span>(
-</span></span><span style="display:flex;"><span>    `Categories Led` <span style="color:#f92672">=</span> (DWS <span style="color:#f92672">==</span> max_dws) <span style="color:#f92672">+</span> (`BLK%` <span style="color:#f92672">==</span> max_blk) <span style="color:#f92672">+</span> 
-</span></span><span style="display:flex;"><span>                       (`DRB%` <span style="color:#f92672">==</span> max_drb) <span style="color:#f92672">+</span> (DBPM <span style="color:#f92672">==</span> max_dbpm)
-</span></span><span style="display:flex;"><span>  ) <span style="color:#f92672">|&gt;</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">arrange</span>(<span style="color:#a6e22e">desc</span>(`Categories Led`), <span style="color:#a6e22e">desc</span>(DWS))
+</span></span><span style="display:flex;"><span>    Date <span style="color:#f92672">=</span> <span style="color:#a6e22e">ymd</span>(Date),
+</span></span><span style="display:flex;"><span>    Win <span style="color:#f92672">=</span> <span style="color:#a6e22e">ifelse</span>(<span style="color:#a6e22e">grepl</span>(<span style="color:#e6db74">&#34;W&#34;</span>, Result), <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>),
+</span></span><span style="display:flex;"><span>    Points <span style="color:#f92672">=</span> <span style="color:#a6e22e">as.numeric</span>(Points),
+</span></span><span style="display:flex;"><span>    Opp_Points <span style="color:#f92672">=</span> <span style="color:#a6e22e">as.numeric</span>(Opp_Points)
+</span></span><span style="display:flex;"><span>  ) <span style="color:#f92672">%&gt;%</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">arrange</span>(Team_ID, Date)
+</span></span></code></pre></div><pre tabindex="0"><code>## Warning: There were 3 warnings in `mutate()`.
+## The first warning was:
+## ℹ In argument: `Date = ymd(Date)`.
+## Caused by warning:
+## !  570 failed to parse.
+## ℹ Run `dplyr::last_dplyr_warnings()` to see the 2 remaining warnings.
+</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#75715e"># Identify game types</span>
+</span></span><span style="display:flex;"><span>all_data <span style="color:#f92672">&lt;-</span> all_data <span style="color:#f92672">%&gt;%</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">group_by</span>(Team_ID) <span style="color:#f92672">%&gt;%</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">mutate</span>(
+</span></span><span style="display:flex;"><span>    Days_Rest <span style="color:#f92672">=</span> <span style="color:#a6e22e">as.numeric</span>(Date <span style="color:#f92672">-</span> <span style="color:#a6e22e">lag</span>(Date)),
+</span></span><span style="display:flex;"><span>    Game_Type <span style="color:#f92672">=</span> <span style="color:#a6e22e">case_when</span>(
+</span></span><span style="display:flex;"><span>      Days_Rest <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">~</span> <span style="color:#e6db74">&#34;B2B&#34;</span>,
+</span></span><span style="display:flex;"><span>      Days_Rest <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">~</span> <span style="color:#e6db74">&#34;Rest&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">TRUE</span> <span style="color:#f92672">~</span> <span style="color:#66d9ef">NA_character_</span>
+</span></span><span style="display:flex;"><span>    )
+</span></span><span style="display:flex;"><span>  ) <span style="color:#f92672">%&gt;%</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">filter</span>(<span style="color:#f92672">!</span><span style="color:#a6e22e">is.na</span>(Game_Type)) <span style="color:#f92672">%&gt;%</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">ungroup</span>()
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">print</span>(all_stats)
-</span></span></code></pre></div><pre><code>## # A tibble: 5 × 7
-##   Player            Era       DWS `BLK%` `DRB%`  DBPM `Categories Led`
-##   &lt;chr&gt;             &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;            &lt;int&gt;
-## 1 Victor Wembanyama 2023-24   8.2   10.2   30.8   3.2                3
-## 2 Tim Duncan        1997-98  11.9    4.5   23.2   1.9                1
-## 3 Hakeem Olajuwon   1984-85   9.1    4.7   20.1   0.8                0
-## 4 Dwight Howard     2004-05   7.9    3.3   25.9  -0.1                0
-## 5 Anthony Davis     2012-13   5.6    6     23.4   0.8                0
-</code></pre>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>table <span style="color:#f92672">&lt;-</span> all_stats <span style="color:#f92672">|&gt;</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">gt</span>() <span style="color:#f92672">|&gt;</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">tab_header</span>(
-</span></span><span style="display:flex;"><span>    title <span style="color:#f92672">=</span> <span style="color:#a6e22e">md</span>(<span style="color:#e6db74">&#34;**Wembanyama&#39;s Defensive Impact Out-Pacing The Legends**&#34;</span>),
-</span></span><span style="display:flex;"><span>    subtitle <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Victor Wembanyama vs All-Time Great Defenders&#34;</span>
-</span></span><span style="display:flex;"><span>  ) <span style="color:#f92672">|&gt;</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">tab_spanner</span>(
-</span></span><span style="display:flex;"><span>    label <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Defensive Metrics&#34;</span>,
-</span></span><span style="display:flex;"><span>    columns <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(DWS, `BLK%`, `DRB%`, DBPM)
-</span></span><span style="display:flex;"><span>  ) <span style="color:#f92672">|&gt;</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">cols_label</span>(
-</span></span><span style="display:flex;"><span>    Era <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;First 127 Games&#34;</span>,
-</span></span><span style="display:flex;"><span>    DWS <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;DWS&#34;</span>,
-</span></span><span style="display:flex;"><span>    `BLK%` <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;BLK%&#34;</span>,
-</span></span><span style="display:flex;"><span>    `DRB%` <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;DRB%&#34;</span>,
-</span></span><span style="display:flex;"><span>    DBPM <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;DBPM&#34;</span>,
-</span></span><span style="display:flex;"><span>    `Categories Led` <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Categories Led&#34;</span>
-</span></span><span style="display:flex;"><span>  ) <span style="color:#f92672">|&gt;</span>
-</span></span><span style="display:flex;"><span>  
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">tab_style</span>(
-</span></span><span style="display:flex;"><span>    style <span style="color:#f92672">=</span> <span style="color:#a6e22e">cell_fill</span>(color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;#C4CED4&#34;</span>),
-</span></span><span style="display:flex;"><span>    locations <span style="color:#f92672">=</span> <span style="color:#a6e22e">cells_body</span>(columns <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(Player, Era), rows <span style="color:#f92672">=</span> Player <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;Victor Wembanyama&#34;</span>)
-</span></span><span style="display:flex;"><span>  ) <span style="color:#f92672">|&gt;</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">tab_style</span>(
-</span></span><span style="display:flex;"><span>    style <span style="color:#f92672">=</span> <span style="color:#a6e22e">cell_text</span>(weight <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bold&#34;</span>),
-</span></span><span style="display:flex;"><span>    locations <span style="color:#f92672">=</span> <span style="color:#a6e22e">cells_body</span>(columns <span style="color:#f92672">=</span> Player, rows <span style="color:#f92672">=</span> Player <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;Victor Wembanyama&#34;</span>)
-</span></span><span style="display:flex;"><span>  ) <span style="color:#f92672">|&gt;</span>
-</span></span><span style="display:flex;"><span>  
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">tab_style</span>(
-</span></span><span style="display:flex;"><span>    style <span style="color:#f92672">=</span> <span style="color:#a6e22e">cell_fill</span>(color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;#90EE90&#34;</span>),
-</span></span><span style="display:flex;"><span>    locations <span style="color:#f92672">=</span> <span style="color:#a6e22e">cells_body</span>(columns <span style="color:#f92672">=</span> DWS, rows <span style="color:#f92672">=</span> DWS <span style="color:#f92672">==</span> max_dws)
-</span></span><span style="display:flex;"><span>  ) <span style="color:#f92672">|&gt;</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">tab_style</span>(
-</span></span><span style="display:flex;"><span>    style <span style="color:#f92672">=</span> <span style="color:#a6e22e">cell_fill</span>(color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;#90EE90&#34;</span>),
-</span></span><span style="display:flex;"><span>    locations <span style="color:#f92672">=</span> <span style="color:#a6e22e">cells_body</span>(columns <span style="color:#f92672">=</span> `BLK%`, rows <span style="color:#f92672">=</span> `BLK%` <span style="color:#f92672">==</span> max_blk)
-</span></span><span style="display:flex;"><span>  ) <span style="color:#f92672">|&gt;</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">tab_style</span>(
-</span></span><span style="display:flex;"><span>    style <span style="color:#f92672">=</span> <span style="color:#a6e22e">cell_fill</span>(color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;#90EE90&#34;</span>),
-</span></span><span style="display:flex;"><span>    locations <span style="color:#f92672">=</span> <span style="color:#a6e22e">cells_body</span>(columns <span style="color:#f92672">=</span> `DRB%`, rows <span style="color:#f92672">=</span> `DRB%` <span style="color:#f92672">==</span> max_drb)
-</span></span><span style="display:flex;"><span>  ) <span style="color:#f92672">|&gt;</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">tab_style</span>(
-</span></span><span style="display:flex;"><span>    style <span style="color:#f92672">=</span> <span style="color:#a6e22e">cell_fill</span>(color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;#90EE90&#34;</span>),
-</span></span><span style="display:flex;"><span>    locations <span style="color:#f92672">=</span> <span style="color:#a6e22e">cells_body</span>(columns <span style="color:#f92672">=</span> DBPM, rows <span style="color:#f92672">=</span> DBPM <span style="color:#f92672">==</span> max_dbpm)
-</span></span><span style="display:flex;"><span>  ) <span style="color:#f92672">|&gt;</span>
-</span></span><span style="display:flex;"><span>  
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">tab_style</span>(
-</span></span><span style="display:flex;"><span>    style <span style="color:#f92672">=</span> <span style="color:#a6e22e">list</span>(<span style="color:#a6e22e">cell_fill</span>(color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;#FFD700&#34;</span>), <span style="color:#a6e22e">cell_text</span>(weight <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bold&#34;</span>)),
-</span></span><span style="display:flex;"><span>    locations <span style="color:#f92672">=</span> <span style="color:#a6e22e">cells_body</span>(columns <span style="color:#f92672">=</span> `Categories Led`, rows <span style="color:#f92672">=</span> `Categories Led` <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">2</span>)
-</span></span><span style="display:flex;"><span>  ) <span style="color:#f92672">|&gt;</span>
-</span></span><span style="display:flex;"><span>  
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">cols_align</span>(
-</span></span><span style="display:flex;"><span>    align <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;center&#34;</span>,
-</span></span><span style="display:flex;"><span>    columns <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(Era, DWS, `BLK%`, `DRB%`, DBPM, `Categories Led`)
-</span></span><span style="display:flex;"><span>  ) <span style="color:#f92672">|&gt;</span>
-</span></span><span style="display:flex;"><span>  
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">tab_source_note</span>(
-</span></span><span style="display:flex;"><span>    source_note <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Data from Basketball-Reference.com | First 127 career games&#34;</span>
-</span></span><span style="display:flex;"><span>  ) <span style="color:#f92672">|&gt;</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">tab_source_note</span>(
-</span></span><span style="display:flex;"><span>    source_note <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Green = Best in category | Gold = 2+ categories led&#34;</span>
-</span></span><span style="display:flex;"><span>  ) <span style="color:#f92672">|&gt;</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">tab_source_note</span>(
-</span></span><span style="display:flex;"><span>    source_note <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;DWS = Defensive Win Shares | BLK% = Block % | DRB% = Defensive Rebound % | DBPM = Defensive Box Plus/Minus&#34;</span>
-</span></span><span style="display:flex;"><span>  ) <span style="color:#f92672">|&gt;</span>
-</span></span><span style="display:flex;"><span>  
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">tab_options</span>(
-</span></span><span style="display:flex;"><span>    heading.title.font.size <span style="color:#f92672">=</span> <span style="color:#ae81ff">24</span>,
-</span></span><span style="display:flex;"><span>    heading.subtitle.font.size <span style="color:#f92672">=</span> <span style="color:#ae81ff">14</span>,
-</span></span><span style="display:flex;"><span>    table.font.size <span style="color:#f92672">=</span> <span style="color:#ae81ff">12</span>,
-</span></span><span style="display:flex;"><span>    column_labels.font.weight <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bold&#34;</span>
-</span></span><span style="display:flex;"><span>  )
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Calculate win % for each team</span>
+</span></span><span style="display:flex;"><span>team_summary <span style="color:#f92672">&lt;-</span> all_data <span style="color:#f92672">%&gt;%</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">group_by</span>(Team_ID, Game_Type) <span style="color:#f92672">%&gt;%</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">summarise</span>(
+</span></span><span style="display:flex;"><span>    Games <span style="color:#f92672">=</span> <span style="color:#a6e22e">n</span>(),
+</span></span><span style="display:flex;"><span>    Win_Pct <span style="color:#f92672">=</span> <span style="color:#a6e22e">mean</span>(Win) <span style="color:#f92672">*</span> <span style="color:#ae81ff">100</span>,
+</span></span><span style="display:flex;"><span>    .groups <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;drop&#34;</span>
+</span></span><span style="display:flex;"><span>  ) <span style="color:#f92672">%&gt;%</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">pivot_wider</span>(names_from <span style="color:#f92672">=</span> Game_Type, values_from <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(Games, Win_Pct))
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">gtsave</span>(table, <span style="color:#e6db74">&#34;/Users/braxtonwolfe/Documents/defensive_legends.png&#34;</span>)
-</span></span><span style="display:flex;"><span>table
-</span></span></code></pre></div><div id="wqdqbfhvws" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#wqdqbfhvws table {
-  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-&#10;#wqdqbfhvws thead, #wqdqbfhvws tbody, #wqdqbfhvws tfoot, #wqdqbfhvws tr, #wqdqbfhvws td, #wqdqbfhvws th {
-  border-style: none;
-}
-&#10;#wqdqbfhvws p {
-  margin: 0;
-  padding: 0;
-}
-&#10;#wqdqbfhvws .gt_table {
-  display: table;
-  border-collapse: collapse;
-  line-height: normal;
-  margin-left: auto;
-  margin-right: auto;
-  color: #333333;
-  font-size: 12px;
-  font-weight: normal;
-  font-style: normal;
-  background-color: #FFFFFF;
-  width: auto;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #A8A8A8;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #A8A8A8;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-}
-&#10;#wqdqbfhvws .gt_caption {
-  padding-top: 4px;
-  padding-bottom: 4px;
-}
-&#10;#wqdqbfhvws .gt_title {
-  color: #333333;
-  font-size: 24px;
-  font-weight: initial;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-bottom-color: #FFFFFF;
-  border-bottom-width: 0;
-}
-&#10;#wqdqbfhvws .gt_subtitle {
-  color: #333333;
-  font-size: 14px;
-  font-weight: initial;
-  padding-top: 3px;
-  padding-bottom: 5px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-top-color: #FFFFFF;
-  border-top-width: 0;
-}
-&#10;#wqdqbfhvws .gt_heading {
-  background-color: #FFFFFF;
-  text-align: center;
-  border-bottom-color: #FFFFFF;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-}
-&#10;#wqdqbfhvws .gt_bottom_border {
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-}
-&#10;#wqdqbfhvws .gt_col_headings {
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-}
-&#10;#wqdqbfhvws .gt_col_heading {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: bold;
-  text-transform: inherit;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: bottom;
-  padding-top: 5px;
-  padding-bottom: 6px;
-  padding-left: 5px;
-  padding-right: 5px;
-  overflow-x: hidden;
-}
-&#10;#wqdqbfhvws .gt_column_spanner_outer {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: bold;
-  text-transform: inherit;
-  padding-top: 0;
-  padding-bottom: 0;
-  padding-left: 4px;
-  padding-right: 4px;
-}
-&#10;#wqdqbfhvws .gt_column_spanner_outer:first-child {
-  padding-left: 0;
-}
-&#10;#wqdqbfhvws .gt_column_spanner_outer:last-child {
-  padding-right: 0;
-}
-&#10;#wqdqbfhvws .gt_column_spanner {
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  vertical-align: bottom;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  overflow-x: hidden;
-  display: inline-block;
-  width: 100%;
-}
-&#10;#wqdqbfhvws .gt_spanner_row {
-  border-bottom-style: hidden;
-}
-&#10;#wqdqbfhvws .gt_group_heading {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: middle;
-  text-align: left;
-}
-&#10;#wqdqbfhvws .gt_empty_group_heading {
-  padding: 0.5px;
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  vertical-align: middle;
-}
-&#10;#wqdqbfhvws .gt_from_md > :first-child {
-  margin-top: 0;
-}
-&#10;#wqdqbfhvws .gt_from_md > :last-child {
-  margin-bottom: 0;
-}
-&#10;#wqdqbfhvws .gt_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  margin: 10px;
-  border-top-style: solid;
-  border-top-width: 1px;
-  border-top-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: middle;
-  overflow-x: hidden;
-}
-&#10;#wqdqbfhvws .gt_stub {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-right-style: solid;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-&#10;#wqdqbfhvws .gt_stub_row_group {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-right-style: solid;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  padding-left: 5px;
-  padding-right: 5px;
-  vertical-align: top;
-}
-&#10;#wqdqbfhvws .gt_row_group_first td {
-  border-top-width: 2px;
-}
-&#10;#wqdqbfhvws .gt_row_group_first th {
-  border-top-width: 2px;
-}
-&#10;#wqdqbfhvws .gt_summary_row {
-  color: #333333;
-  background-color: #FFFFFF;
-  text-transform: inherit;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-&#10;#wqdqbfhvws .gt_first_summary_row {
-  border-top-style: solid;
-  border-top-color: #D3D3D3;
-}
-&#10;#wqdqbfhvws .gt_first_summary_row.thick {
-  border-top-width: 2px;
-}
-&#10;#wqdqbfhvws .gt_last_summary_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-}
-&#10;#wqdqbfhvws .gt_grand_summary_row {
-  color: #333333;
-  background-color: #FFFFFF;
-  text-transform: inherit;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-&#10;#wqdqbfhvws .gt_first_grand_summary_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-top-style: double;
-  border-top-width: 6px;
-  border-top-color: #D3D3D3;
-}
-&#10;#wqdqbfhvws .gt_last_grand_summary_row_top {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-bottom-style: double;
-  border-bottom-width: 6px;
-  border-bottom-color: #D3D3D3;
-}
-&#10;#wqdqbfhvws .gt_striped {
-  background-color: rgba(128, 128, 128, 0.05);
-}
-&#10;#wqdqbfhvws .gt_table_body {
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-}
-&#10;#wqdqbfhvws .gt_footnotes {
-  color: #333333;
-  background-color: #FFFFFF;
-  border-bottom-style: none;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-}
-&#10;#wqdqbfhvws .gt_footnote {
-  margin: 0px;
-  font-size: 90%;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-&#10;#wqdqbfhvws .gt_sourcenotes {
-  color: #333333;
-  background-color: #FFFFFF;
-  border-bottom-style: none;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-}
-&#10;#wqdqbfhvws .gt_sourcenote {
-  font-size: 90%;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-&#10;#wqdqbfhvws .gt_left {
-  text-align: left;
-}
-&#10;#wqdqbfhvws .gt_center {
-  text-align: center;
-}
-&#10;#wqdqbfhvws .gt_right {
-  text-align: right;
-  font-variant-numeric: tabular-nums;
-}
-&#10;#wqdqbfhvws .gt_font_normal {
-  font-weight: normal;
-}
-&#10;#wqdqbfhvws .gt_font_bold {
-  font-weight: bold;
-}
-&#10;#wqdqbfhvws .gt_font_italic {
-  font-style: italic;
-}
-&#10;#wqdqbfhvws .gt_super {
-  font-size: 65%;
-}
-&#10;#wqdqbfhvws .gt_footnote_marks {
-  font-size: 75%;
-  vertical-align: 0.4em;
-  position: initial;
-}
-&#10;#wqdqbfhvws .gt_asterisk {
-  font-size: 100%;
-  vertical-align: 0;
-}
-&#10;#wqdqbfhvws .gt_indent_1 {
-  text-indent: 5px;
-}
-&#10;#wqdqbfhvws .gt_indent_2 {
-  text-indent: 10px;
-}
-&#10;#wqdqbfhvws .gt_indent_3 {
-  text-indent: 15px;
-}
-&#10;#wqdqbfhvws .gt_indent_4 {
-  text-indent: 20px;
-}
-&#10;#wqdqbfhvws .gt_indent_5 {
-  text-indent: 25px;
-}
-</style>
-<table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
-  <thead>
-    <tr class="gt_heading">
-      <td colspan="7" class="gt_heading gt_title gt_font_normal" style><strong>Wembanyama’s Defensive Impact Out-Pacing The Legends</strong></td>
-    </tr>
-    <tr class="gt_heading">
-      <td colspan="7" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border" style>Victor Wembanyama vs All-Time Great Defenders</td>
-    </tr>
-    <tr class="gt_col_headings gt_spanner_row">
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="2" colspan="1" scope="col" id="Player">Player</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="2" colspan="1" scope="col" id="First 127 Games">First 127 Games</th>
-      <th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="4" scope="colgroup" id="Defensive Metrics">
-        <span class="gt_column_spanner">Defensive Metrics</span>
-      </th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="2" colspan="1" scope="col" id="Categories Led">Categories Led</th>
-    </tr>
-    <tr class="gt_col_headings">
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="DWS">DWS</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="BLK%">BLK%</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="DRB%">DRB%</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="DBPM">DBPM</th>
-    </tr>
-  </thead>
-  <tbody class="gt_table_body">
-    <tr><td headers="Player" class="gt_row gt_left" style="background-color: #C4CED4; font-weight: bold;">Victor Wembanyama</td>
-<td headers="Era" class="gt_row gt_center" style="background-color: #C4CED4;">2023-24</td>
-<td headers="DWS" class="gt_row gt_center">8.2</td>
-<td headers="BLK%" class="gt_row gt_center" style="background-color: #90EE90;">10.2</td>
-<td headers="DRB%" class="gt_row gt_center" style="background-color: #90EE90;">30.8</td>
-<td headers="DBPM" class="gt_row gt_center" style="background-color: #90EE90;">3.2</td>
-<td headers="Categories Led" class="gt_row gt_center" style="background-color: #FFD700; font-weight: bold;">3</td></tr>
-    <tr><td headers="Player" class="gt_row gt_left">Tim Duncan</td>
-<td headers="Era" class="gt_row gt_center">1997-98</td>
-<td headers="DWS" class="gt_row gt_center" style="background-color: #90EE90;">11.9</td>
-<td headers="BLK%" class="gt_row gt_center">4.5</td>
-<td headers="DRB%" class="gt_row gt_center">23.2</td>
-<td headers="DBPM" class="gt_row gt_center">1.9</td>
-<td headers="Categories Led" class="gt_row gt_center">1</td></tr>
-    <tr><td headers="Player" class="gt_row gt_left">Hakeem Olajuwon</td>
-<td headers="Era" class="gt_row gt_center">1984-85</td>
-<td headers="DWS" class="gt_row gt_center">9.1</td>
-<td headers="BLK%" class="gt_row gt_center">4.7</td>
-<td headers="DRB%" class="gt_row gt_center">20.1</td>
-<td headers="DBPM" class="gt_row gt_center">0.8</td>
-<td headers="Categories Led" class="gt_row gt_center">0</td></tr>
-    <tr><td headers="Player" class="gt_row gt_left">Dwight Howard</td>
-<td headers="Era" class="gt_row gt_center">2004-05</td>
-<td headers="DWS" class="gt_row gt_center">7.9</td>
-<td headers="BLK%" class="gt_row gt_center">3.3</td>
-<td headers="DRB%" class="gt_row gt_center">25.9</td>
-<td headers="DBPM" class="gt_row gt_center">-0.1</td>
-<td headers="Categories Led" class="gt_row gt_center">0</td></tr>
-    <tr><td headers="Player" class="gt_row gt_left">Anthony Davis</td>
-<td headers="Era" class="gt_row gt_center">2012-13</td>
-<td headers="DWS" class="gt_row gt_center">5.6</td>
-<td headers="BLK%" class="gt_row gt_center">6.0</td>
-<td headers="DRB%" class="gt_row gt_center">23.4</td>
-<td headers="DBPM" class="gt_row gt_center">0.8</td>
-<td headers="Categories Led" class="gt_row gt_center">0</td></tr>
-  </tbody>
-  <tfoot class="gt_sourcenotes">
-    <tr>
-      <td class="gt_sourcenote" colspan="7">Data from Basketball-Reference.com | First 127 career games</td>
-    </tr>
-    <tr>
-      <td class="gt_sourcenote" colspan="7">Green = Best in category | Gold = 2+ categories led</td>
-    </tr>
-    <tr>
-      <td class="gt_sourcenote" colspan="7">DWS = Defensive Win Shares | BLK% = Block % | DRB% = Defensive Rebound % | DBPM = Defensive Box Plus/Minus</td>
-    </tr>
-  </tfoot>
-  &#10;</table>
-</div>
-<p>Victor Wembanyama led in three out of the four categories that this table chart looked into, while Tim Duncan, was the only one to steal a single category over Wembanyama. Wembanyama’s block percentage really stood out from the others. In this instance, an estimated 10% of two point field goal attempts while Victor Wembanyama was in the game have been blocked, doubling everyone on this list except for Anthony Davis, who has been considered by many the best defender of the past decade.</p>
-<p>On top of block percentage, Victor Wembanyama claimed the most defensive win shares as well as defensive rebounding percentage, and it was not particularly close. When it comes to some of these advanced defensive statistics, it is clear that Victor Wembanyama’s first 127 games are on pace to surpass some of the greatest defenders in NBA history through their first 127 games.</p>
-<p>For my second chart, I wanted to focus on the present and what his actual impact is on a defense in today’s NBA. I felt it would be appropriate to see his actual impact on his own team compared during the course of the modern NBA, while also looking at the individual aspect comparing him to some of the all time greats.</p>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Calculate gap and sort</span>
+</span></span><span style="display:flex;"><span>team_summary <span style="color:#f92672">&lt;-</span> team_summary <span style="color:#f92672">%&gt;%</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">mutate</span>(Gap <span style="color:#f92672">=</span> Win_Pct_Rest <span style="color:#f92672">-</span> Win_Pct_B2B) <span style="color:#f92672">%&gt;%</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">arrange</span>(<span style="color:#a6e22e">desc</span>(Gap))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">cat</span>(<span style="color:#a6e22e">sprintf</span>(<span style="color:#e6db74">&#34;\n=== Data Check ===\n&#34;</span>))
+</span></span></code></pre></div><pre tabindex="0"><code>## 
+## === Data Check ===
+</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">cat</span>(<span style="color:#a6e22e">sprintf</span>(<span style="color:#e6db74">&#34;Total teams: %d\n&#34;</span>, <span style="color:#a6e22e">nrow</span>(team_summary)))
+</span></span></code></pre></div><pre tabindex="0"><code>## Total teams: 21
+</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">cat</span>(<span style="color:#e6db74">&#34;All teams:\n&#34;</span>)
+</span></span></code></pre></div><pre tabindex="0"><code>## All teams:
+</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">print</span>(team_summary<span style="color:#f92672">$</span>Team_ID)
+</span></span></code></pre></div><pre tabindex="0"><code>##  [1] &#34;Team 7&#34;  &#34;Team 22&#34; &#34;Team 10&#34; &#34;Team 17&#34; &#34;Team 2&#34;  &#34;Team 11&#34; &#34;Team 4&#34; 
+##  [8] &#34;Team 1&#34;  &#34;Team 5&#34;  &#34;Team 27&#34; &#34;Team 9&#34;  &#34;Team 25&#34; &#34;Team 12&#34; &#34;Team 26&#34;
+## [15] &#34;Team 24&#34; &#34;Team 6&#34;  &#34;Team 3&#34;  &#34;Team 14&#34; &#34;Team 13&#34; &#34;Team 8&#34;  &#34;Team 16&#34;
+</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#75715e"># Create VERTICAL dumbbell with READABLE numbers</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">ggplot</span>(team_summary, <span style="color:#a6e22e">aes</span>(x <span style="color:#f92672">=</span> <span style="color:#a6e22e">reorder</span>(Team_ID, <span style="color:#f92672">-</span>Gap))) <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># Connecting lines</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">geom_segment</span>(<span style="color:#a6e22e">aes</span>(y <span style="color:#f92672">=</span> Win_Pct_B2B, yend <span style="color:#f92672">=</span> Win_Pct_Rest, xend <span style="color:#f92672">=</span> Team_ID),
+</span></span><span style="display:flex;"><span>               size <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>, color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;gray60&#34;</span>, alpha <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.7</span>) <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># Dots</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">geom_point</span>(<span style="color:#a6e22e">aes</span>(y <span style="color:#f92672">=</span> Win_Pct_B2B), size <span style="color:#f92672">=</span> <span style="color:#ae81ff">4</span>, color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;#E74C3C&#34;</span>, alpha <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.95</span>) <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">geom_point</span>(<span style="color:#a6e22e">aes</span>(y <span style="color:#f92672">=</span> Win_Pct_Rest), size <span style="color:#f92672">=</span> <span style="color:#ae81ff">4</span>, color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;#3498DB&#34;</span>, alpha <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.95</span>) <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># VALUE LABELS with white background boxes for readability</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">geom_label</span>(<span style="color:#a6e22e">aes</span>(y <span style="color:#f92672">=</span> Win_Pct_B2B, label <span style="color:#f92672">=</span> <span style="color:#a6e22e">sprintf</span>(<span style="color:#e6db74">&#34;%.1f&#34;</span>, Win_Pct_B2B)),
+</span></span><span style="display:flex;"><span>            vjust <span style="color:#f92672">=</span> <span style="color:#ae81ff">1.8</span>, size <span style="color:#f92672">=</span> <span style="color:#ae81ff">2.5</span>, color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;#C0392B&#34;</span>, fontface <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bold&#34;</span>,
+</span></span><span style="display:flex;"><span>            fill <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;white&#34;</span>, label.size <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, label.padding <span style="color:#f92672">=</span> <span style="color:#a6e22e">unit</span>(<span style="color:#ae81ff">0.15</span>, <span style="color:#e6db74">&#34;lines&#34;</span>)) <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">geom_label</span>(<span style="color:#a6e22e">aes</span>(y <span style="color:#f92672">=</span> Win_Pct_Rest, label <span style="color:#f92672">=</span> <span style="color:#a6e22e">sprintf</span>(<span style="color:#e6db74">&#34;%.1f&#34;</span>, Win_Pct_Rest)),
+</span></span><span style="display:flex;"><span>            vjust <span style="color:#f92672">=</span> <span style="color:#ae81ff">-0.8</span>, size <span style="color:#f92672">=</span> <span style="color:#ae81ff">2.5</span>, color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;#2471A3&#34;</span>, fontface <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bold&#34;</span>,
+</span></span><span style="display:flex;"><span>            fill <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;white&#34;</span>, label.size <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, label.padding <span style="color:#f92672">=</span> <span style="color:#a6e22e">unit</span>(<span style="color:#ae81ff">0.15</span>, <span style="color:#e6db74">&#34;lines&#34;</span>)) <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># Labels</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">labs</span>(
+</span></span><span style="display:flex;"><span>    title <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Win Percentage: Back-to-Back vs Rest&#34;</span>,
+</span></span><span style="display:flex;"><span>    subtitle <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;2nd night of B2B vs games with rest (sorted by biggest penalty)&#34;</span>,
+</span></span><span style="display:flex;"><span>    x <span style="color:#f92672">=</span> <span style="color:#66d9ef">NULL</span>,
+</span></span><span style="display:flex;"><span>    y <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Win Percentage (%)&#34;</span>,
+</span></span><span style="display:flex;"><span>    caption <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Red = 2nd night of B2B  |  Blue = Games with rest  |  2024-25 NBA Season&#34;</span>
+</span></span><span style="display:flex;"><span>  ) <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># Clean theme</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">theme_minimal</span>(base_size <span style="color:#f92672">=</span> <span style="color:#ae81ff">13</span>) <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">theme</span>(
+</span></span><span style="display:flex;"><span>    plot.title <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(face <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bold&#34;</span>, size <span style="color:#f92672">=</span> <span style="color:#ae81ff">17</span>, hjust <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.5</span>, margin <span style="color:#f92672">=</span> <span style="color:#a6e22e">margin</span>(b <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>, t <span style="color:#f92672">=</span> <span style="color:#ae81ff">12</span>)),
+</span></span><span style="display:flex;"><span>    plot.subtitle <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">11</span>, hjust <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.5</span>, color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;gray40&#34;</span>, margin <span style="color:#f92672">=</span> <span style="color:#a6e22e">margin</span>(b <span style="color:#f92672">=</span> <span style="color:#ae81ff">20</span>)),
+</span></span><span style="display:flex;"><span>    plot.caption <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">9</span>, color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;gray50&#34;</span>, hjust <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.5</span>, margin <span style="color:#f92672">=</span> <span style="color:#a6e22e">margin</span>(t <span style="color:#f92672">=</span> <span style="color:#ae81ff">15</span>)),
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># X-axis (teams)</span>
+</span></span><span style="display:flex;"><span>    axis.text.x <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(angle <span style="color:#f92672">=</span> <span style="color:#ae81ff">45</span>, hjust <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>, size <span style="color:#f92672">=</span> <span style="color:#ae81ff">9</span>),
+</span></span><span style="display:flex;"><span>    axis.text.y <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">11</span>),
+</span></span><span style="display:flex;"><span>    axis.title.y <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">12</span>, face <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bold&#34;</span>, margin <span style="color:#f92672">=</span> <span style="color:#a6e22e">margin</span>(r <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>)),
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Grid</span>
+</span></span><span style="display:flex;"><span>    panel.grid.major.x <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_line</span>(color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;gray92&#34;</span>, size <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.3</span>),
+</span></span><span style="display:flex;"><span>    panel.grid.major.y <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_line</span>(color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;gray85&#34;</span>, linetype <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;dashed&#34;</span>, size <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.3</span>),
+</span></span><span style="display:flex;"><span>    panel.grid.minor <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_blank</span>(),
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    plot.margin <span style="color:#f92672">=</span> <span style="color:#a6e22e">margin</span>(<span style="color:#ae81ff">20</span>, <span style="color:#ae81ff">25</span>, <span style="color:#ae81ff">20</span>, <span style="color:#ae81ff">25</span>)
+</span></span><span style="display:flex;"><span>  ) <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># Y-axis with extra space at top so labels don&#39;t get cut off</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">scale_y_continuous</span>(limits <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">105</span>), breaks <span style="color:#f92672">=</span> <span style="color:#a6e22e">seq</span>(<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">100</span>, <span style="color:#ae81ff">20</span>))
+</span></span></code></pre></div><pre tabindex="0"><code>## Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
+## ℹ Please use `linewidth` instead.
+## This warning is displayed once every 8 hours.
+## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
+## generated.
+</code></pre><pre tabindex="0"><code>## Warning: The `size` argument of `element_line()` is deprecated as of ggplot2 3.4.0.
+## ℹ Please use the `linewidth` argument instead.
+## This warning is displayed once every 8 hours.
+## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
+## generated.
+</code></pre><img src="/17170/1111/17/victor-wembanyama-s-defensive-pace-versus-legends-and-current-trajectory/index_files/figure-html/unnamed-chunk-1-1.png" width="672" />
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#75715e"># Save as WIDE chart so all teams fit</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">ggsave</span>(<span style="color:#e6db74">&#34;nba_b2b_vertical.png&#34;</span>, width <span style="color:#f92672">=</span> <span style="color:#ae81ff">18</span>, height <span style="color:#f92672">=</span> <span style="color:#ae81ff">8</span>, dpi <span style="color:#f92672">=</span> <span style="color:#ae81ff">300</span>, bg <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;white&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">cat</span>(<span style="color:#e6db74">&#34;\n✓ Chart with readable numbers created!\n&#34;</span>)
+</span></span></code></pre></div><pre tabindex="0"><code>## 
+## ✓ Chart with readable numbers created!
+</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">cat</span>(<span style="color:#e6db74">&#34;✓ Key improvements:\n&#34;</span>)
+</span></span></code></pre></div><pre tabindex="0"><code>## ✓ Key improvements:
+</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">cat</span>(<span style="color:#e6db74">&#34;  - Numbers have white background boxes for readability\n&#34;</span>)
+</span></span></code></pre></div><pre tabindex="0"><code>##   - Numbers have white background boxes for readability
+</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">cat</span>(<span style="color:#e6db74">&#34;  - Extended Y-axis to prevent label cutoff\n&#34;</span>)
+</span></span></code></pre></div><pre tabindex="0"><code>##   - Extended Y-axis to prevent label cutoff
+</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">cat</span>(<span style="color:#e6db74">&#34;  - Wider format (18 inches) for all teams\n&#34;</span>)
+</span></span></code></pre></div><pre tabindex="0"><code>##   - Wider format (18 inches) for all teams
+</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">cat</span>(<span style="color:#a6e22e">sprintf</span>(<span style="color:#e6db74">&#34;✓ All %d teams included\n&#34;</span>, <span style="color:#a6e22e">nrow</span>(team_summary)))
+</span></span></code></pre></div><pre tabindex="0"><code>## ✓ All 21 teams included
+</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">cat</span>(<span style="color:#a6e22e">sprintf</span>(<span style="color:#e6db74">&#34;\nAverage gap: %.1f%%\n&#34;</span>, <span style="color:#a6e22e">mean</span>(team_summary<span style="color:#f92672">$</span>Gap)))
+</span></span></code></pre></div><pre tabindex="0"><code>## 
+## Average gap: 7.6%
+</code></pre><p>Victor Wembanyama led in three out of the four categories that this table chart looked into, while Tim Duncan, was the only one to steal a single category over Wembanyama. Wembanyama&rsquo;s block percentage really stood out from the others. In this instance, an estimated 10% of two point field goal attempts while Victor Wembanyama was in the game have been blocked, doubling everyone on this list except for Anthony Davis, who has been considered by many the best defender of the past decade.</p>
+<p>On top of block percentage, Victor Wembanyama claimed the most defensive win shares as well as defensive rebounding percentage, and it was not particularly close. When it comes to some of these advanced defensive statistics, it is clear that Victor Wembanyama&rsquo;s first 127 games are on pace to surpass some of the greatest defenders in NBA history through their first 127 games.</p>
+<p>For my second chart, I wanted to focus on the present and what his actual impact is on a defense in today&rsquo;s NBA. I felt it would be appropriate to see his actual impact on his own team compared during the course of the modern NBA, while also looking at the individual aspect comparing him to some of the all time greats.</p>
 <p>For this scatterplot, I wanted to focus on the Spurs defensive rating with Wembanyama on the court as well as without Wembanyama on the court, and compare that to the rest of the defensive ratings in the NBA. Being so early into this current season, I decided to dive into the 2024-2025 season to look at these statistics. It is also worth noting that Wembanyama missed the last two months of the season, so that made for a sizable sample size in terms of the numbers both ways for the San Antonio Spurs.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">library</span>(tidyverse)
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>team_ratings <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">read_csv</span>(<span style="color:#e6db74">&#34;/Users/braxtonwolfe/Documents/TeamDefensiveRatings.csv&#34;</span>, skip <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>)
-</span></span></code></pre></div><pre><code>## Rows: 30 Columns: 15
+</span></span></code></pre></div><pre tabindex="0"><code>## Rows: 30 Columns: 15
 ## ── Column specification ────────────────────────────────────────────────────────
-## Delimiter: &quot;,&quot;
+## Delimiter: &#34;,&#34;
 ## chr  (3): Team, Conf, Div
 ## dbl (12): Rk, W, L, W/L%, MOV, ORtg, DRtg, NRtg, MOV/A, ORtg/A, DRtg/A, NRtg/A
 ## 
 ## ℹ Use `spec()` to retrieve the full column specification for this data.
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
-</code></pre>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>wemby_onoff <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">read_delim</span>(<span style="color:#e6db74">&#34;/Users/braxtonwolfe/Documents/WembyOnOffRatings.csv&#34;</span>, delim <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;\t&#34;</span>)
-</span></span></code></pre></div><pre><code>## New names:
+</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>wemby_onoff <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">read_delim</span>(<span style="color:#e6db74">&#34;/Users/braxtonwolfe/Documents/WembyOnOffRatings.csv&#34;</span>, delim <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;\t&#34;</span>)
+</span></span></code></pre></div><pre tabindex="0"><code>## New names:
 ## Rows: 3 Columns: 30
 ## ── Column specification
-## ──────────────────────────────────────────────────────── Delimiter: &quot;\t&quot; chr
+## ──────────────────────────────────────────────────────── Delimiter: &#34;\t&#34; chr
 ## (3): Split, Tm, MP dbl (27): eFG%...4, ORB%...5, DRB%...6, TRB%...7, AST%...8,
 ## STL%...9, BLK%.....
 ## ℹ Use `spec()` to retrieve the full column specification for this data. ℹ
@@ -776,8 +298,7 @@
 ## • `STL%` -&gt; `STL%...27`
 ## • `BLK%` -&gt; `BLK%...28`
 ## • `TOV%` -&gt; `TOV%...29`
-</code></pre>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>nba_teams <span style="color:#f92672">&lt;-</span> team_ratings <span style="color:#f92672">|&gt;</span>
+</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>nba_teams <span style="color:#f92672">&lt;-</span> team_ratings <span style="color:#f92672">|&gt;</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">select</span>(Team, DRtg) <span style="color:#f92672">|&gt;</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">filter</span>(<span style="color:#f92672">!</span><span style="color:#a6e22e">is.na</span>(Team), <span style="color:#f92672">!</span><span style="color:#a6e22e">is.na</span>(DRtg)) <span style="color:#f92672">|&gt;</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">mutate</span>(DRtg <span style="color:#f92672">=</span> <span style="color:#a6e22e">as.numeric</span>(DRtg))
@@ -810,20 +331,16 @@
 </span></span><span style="display:flex;"><span>)
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#a6e22e">cat</span>(<span style="color:#e6db74">&#34;\n=== WEMBANYAMA DEFENSIVE IMPACT ===\n\n&#34;</span>)
-</span></span></code></pre></div><pre><code>## 
+</span></span></code></pre></div><pre tabindex="0"><code>## 
 ## === WEMBANYAMA DEFENSIVE IMPACT ===
-</code></pre>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">cat</span>(<span style="color:#a6e22e">sprintf</span>(<span style="color:#e6db74">&#34;Spurs WITH Wembanyama: %.1f DRtg (Rank: #%d)\n&#34;</span>, wemby_on, wemby_on_rank))
-</span></span></code></pre></div><pre><code>## Spurs WITH Wembanyama: 112.7 DRtg (Rank: #9)
-</code></pre>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">cat</span>(<span style="color:#a6e22e">sprintf</span>(<span style="color:#e6db74">&#34;Spurs WITHOUT Wembanyama: %.1f DRtg (Rank: #%d)\n&#34;</span>, wemby_off, wemby_off_rank))
-</span></span></code></pre></div><pre><code>## Spurs WITHOUT Wembanyama: 120.5 DRtg (Rank: #30)
-</code></pre>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">cat</span>(<span style="color:#a6e22e">sprintf</span>(<span style="color:#e6db74">&#34;IMPACT: %d positions | %.1f point difference\n\n&#34;</span>, 
+</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">cat</span>(<span style="color:#a6e22e">sprintf</span>(<span style="color:#e6db74">&#34;Spurs WITH Wembanyama: %.1f DRtg (Rank: #%d)\n&#34;</span>, wemby_on, wemby_on_rank))
+</span></span></code></pre></div><pre tabindex="0"><code>## Spurs WITH Wembanyama: 112.7 DRtg (Rank: #9)
+</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">cat</span>(<span style="color:#a6e22e">sprintf</span>(<span style="color:#e6db74">&#34;Spurs WITHOUT Wembanyama: %.1f DRtg (Rank: #%d)\n&#34;</span>, wemby_off, wemby_off_rank))
+</span></span></code></pre></div><pre tabindex="0"><code>## Spurs WITHOUT Wembanyama: 120.5 DRtg (Rank: #30)
+</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">cat</span>(<span style="color:#a6e22e">sprintf</span>(<span style="color:#e6db74">&#34;IMPACT: %d positions | %.1f point difference\n\n&#34;</span>, 
 </span></span><span style="display:flex;"><span>            wemby_off_rank <span style="color:#f92672">-</span> wemby_on_rank, wemby_off <span style="color:#f92672">-</span> wemby_on))
-</span></span></code></pre></div><pre><code>## IMPACT: 21 positions | 7.8 point difference
-</code></pre>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">ggplot</span>(plot_data, <span style="color:#a6e22e">aes</span>(x <span style="color:#f92672">=</span> rank, y <span style="color:#f92672">=</span> DRtg)) <span style="color:#f92672">+</span>
+</span></span></code></pre></div><pre tabindex="0"><code>## IMPACT: 21 positions | 7.8 point difference
+</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">ggplot</span>(plot_data, <span style="color:#a6e22e">aes</span>(x <span style="color:#f92672">=</span> rank, y <span style="color:#f92672">=</span> DRtg)) <span style="color:#f92672">+</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">theme_minimal</span>(base_size <span style="color:#f92672">=</span> <span style="color:#ae81ff">13</span>) <span style="color:#f92672">+</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">annotate</span>(<span style="color:#e6db74">&#34;rect&#34;</span>, xmin <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, xmax <span style="color:#f92672">=</span> <span style="color:#ae81ff">10.5</span>, ymin <span style="color:#f92672">=</span> <span style="color:#ae81ff">105</span>, ymax <span style="color:#f92672">=</span> <span style="color:#ae81ff">113</span>, 
 </span></span><span style="display:flex;"><span>           fill <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;#90EE90&#34;</span>, alpha <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.08</span>) <span style="color:#f92672">+</span>
@@ -871,114 +388,94 @@
 </span></span><span style="display:flex;"><span>  ) <span style="color:#f92672">+</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">scale_x_reverse</span>(breaks <span style="color:#f92672">=</span> <span style="color:#a6e22e">seq</span>(<span style="color:#ae81ff">30</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">-5</span>), limits <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">32</span>, <span style="color:#ae81ff">-1</span>)) <span style="color:#f92672">+</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">scale_y_reverse</span>(breaks <span style="color:#f92672">=</span> <span style="color:#a6e22e">seq</span>(<span style="color:#ae81ff">122</span>, <span style="color:#ae81ff">106</span>, <span style="color:#ae81ff">-2</span>), limits <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">123</span>, <span style="color:#ae81ff">106</span>))
-</span></span></code></pre></div><pre><code>## Warning: Use of `spurs_data$rank` is discouraged.
+</span></span></code></pre></div><pre tabindex="0"><code>## Warning: Use of `spurs_data$rank` is discouraged.
 ## ℹ Use `rank` instead.
-
-## Warning: Use of `spurs_data$DRtg` is discouraged.
+</code></pre><pre tabindex="0"><code>## Warning: Use of `spurs_data$DRtg` is discouraged.
 ## ℹ Use `DRtg` instead.
-
-## Warning: Use of `spurs_data$rank` is discouraged.
+</code></pre><pre tabindex="0"><code>## Warning: Use of `spurs_data$rank` is discouraged.
 ## ℹ Use `rank` instead.
-
-## Warning: Use of `spurs_data$DRtg` is discouraged.
+</code></pre><pre tabindex="0"><code>## Warning: Use of `spurs_data$DRtg` is discouraged.
 ## ℹ Use `DRtg` instead.
-
-## Warning in geom_segment(data = spurs_data, aes(x = spurs_data$rank[1], xend = spurs_data$rank[2], : All aesthetics have length 1, but the data has 2 rows.
+</code></pre><pre tabindex="0"><code>## Warning in geom_segment(data = spurs_data, aes(x = spurs_data$rank[1], xend = spurs_data$rank[2], : All aesthetics have length 1, but the data has 2 rows.
 ## ℹ Please consider using `annotate()` or provide this layer with data containing
 ##   a single row.
-
-## Warning: Removed 1 row containing missing values or values outside the scale range
+</code></pre><pre tabindex="0"><code>## Warning: Removed 1 row containing missing values or values outside the scale range
 ## (`geom_rect()`).
-</code></pre>
-<img src="/17170/1111/17/victor-wembanyama-s-defensive-pace-versus-legends-and-current-trajectory/index_files/figure-html/unnamed-chunk-2-1.png" width="672" />
+</code></pre><img src="/17170/1111/17/victor-wembanyama-s-defensive-pace-versus-legends-and-current-trajectory/index_files/figure-html/unnamed-chunk-2-1.png" width="672" />
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">ggsave</span>(<span style="color:#e6db74">&#34;/Users/braxtonwolfe/Documents/wembanyama_defensive_impact.png&#34;</span>, 
 </span></span><span style="display:flex;"><span>       width <span style="color:#f92672">=</span> <span style="color:#ae81ff">13</span>, height <span style="color:#f92672">=</span> <span style="color:#ae81ff">8</span>, dpi <span style="color:#f92672">=</span> <span style="color:#ae81ff">300</span>, bg <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;white&#34;</span>)
-</span></span></code></pre></div><pre><code>## Warning: Use of `spurs_data$rank` is discouraged.
+</span></span></code></pre></div><pre tabindex="0"><code>## Warning: Use of `spurs_data$rank` is discouraged.
 ## ℹ Use `rank` instead.
-
-## Warning: Use of `spurs_data$DRtg` is discouraged.
+</code></pre><pre tabindex="0"><code>## Warning: Use of `spurs_data$DRtg` is discouraged.
 ## ℹ Use `DRtg` instead.
-
-## Warning: Use of `spurs_data$rank` is discouraged.
+</code></pre><pre tabindex="0"><code>## Warning: Use of `spurs_data$rank` is discouraged.
 ## ℹ Use `rank` instead.
-
-## Warning: Use of `spurs_data$DRtg` is discouraged.
+</code></pre><pre tabindex="0"><code>## Warning: Use of `spurs_data$DRtg` is discouraged.
 ## ℹ Use `DRtg` instead.
-
-## Warning in geom_segment(data = spurs_data, aes(x = spurs_data$rank[1], xend = spurs_data$rank[2], : All aesthetics have length 1, but the data has 2 rows.
+</code></pre><pre tabindex="0"><code>## Warning in geom_segment(data = spurs_data, aes(x = spurs_data$rank[1], xend = spurs_data$rank[2], : All aesthetics have length 1, but the data has 2 rows.
 ## ℹ Please consider using `annotate()` or provide this layer with data containing
 ##   a single row.
-
-## Warning: Removed 1 row containing missing values or values outside the scale range
+</code></pre><pre tabindex="0"><code>## Warning: Removed 1 row containing missing values or values outside the scale range
 ## (`geom_rect()`).
-</code></pre>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">cat</span>(<span style="color:#e6db74">&#34;\n✓ FLIPPED scatterplot saved: wembanyama_defensive_impact.png\n&#34;</span>)
-</span></span></code></pre></div><pre><code>## 
+</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">cat</span>(<span style="color:#e6db74">&#34;\n✓ FLIPPED scatterplot saved: wembanyama_defensive_impact.png\n&#34;</span>)
+</span></span></code></pre></div><pre tabindex="0"><code>## 
 ## ✓ FLIPPED scatterplot saved: wembanyama_defensive_impact.png
-</code></pre>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">cat</span>(<span style="color:#e6db74">&#34;Green dot (WITH Wemby) now in TOP-RIGHT = Elite!\n&#34;</span>)
-</span></span></code></pre></div><pre><code>## Green dot (WITH Wemby) now in TOP-RIGHT = Elite!
-</code></pre>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">cat</span>(<span style="color:#e6db74">&#34;Red dot (WITHOUT Wemby) now in BOTTOM-LEFT = Poor!\n&#34;</span>)
-</span></span></code></pre></div><pre><code>## Red dot (WITHOUT Wemby) now in BOTTOM-LEFT = Poor!
-</code></pre>
-<p>As you can see in this scatterplot, the Spurs defensive rating with Victor Wembanyama is coded in green, while the Spurs defensive rating without Victor Wembanyama is coded in red. The rest of the teams in the NBA are the darker colored dots on the scatterplot. In the NBA, a lower number for defensive rating indicates a better defense, while a higher number will put you at the bottom of the league.</p>
-<p>The story this chart tells about Wembanyama’s defensive impact in the modern NBA in only his second season is pretty incredible. The Spurs defense was ranked dead last in the NBA when Victor Wembanyama was not on the court last season. When Wembanyama was playing, not only did the Spurs jump outside of the bottom 10 defenses in the NBA, but they became a top 10 defense in the entire league. It is hard to overstate just how critical Victor Wembanyama was for the Spurs defense last season, and you could even go as far to say that he is the defense of the San Antonio Spurs.</p>
-<p>For the last chart, I wanted to go back to comparing the trajectory of Wembanyama’s defense more individually, now knowing that his impact is off the charts. For this final chart, I decided to create a stacked bar chart to show how Wembanyama stacks up against those same legends in some more common statistics throughout everyone’s first 127 games.</p>
+</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">cat</span>(<span style="color:#e6db74">&#34;Green dot (WITH Wemby) now in TOP-RIGHT = Elite!\n&#34;</span>)
+</span></span></code></pre></div><pre tabindex="0"><code>## Green dot (WITH Wemby) now in TOP-RIGHT = Elite!
+</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">cat</span>(<span style="color:#e6db74">&#34;Red dot (WITHOUT Wemby) now in BOTTOM-LEFT = Poor!\n&#34;</span>)
+</span></span></code></pre></div><pre tabindex="0"><code>## Red dot (WITHOUT Wemby) now in BOTTOM-LEFT = Poor!
+</code></pre><p>As you can see in this scatterplot, the Spurs defensive rating with Victor Wembanyama is coded in green, while the Spurs defensive rating without Victor Wembanyama is coded in red. The rest of the teams in the NBA are the darker colored dots on the scatterplot. In the NBA, a lower number for defensive rating indicates a better defense, while a higher number will put you at the bottom of the league.</p>
+<p>The story this chart tells about Wembanyama&rsquo;s defensive impact in the modern NBA in only his second season is pretty incredible. The Spurs defense was ranked dead last in the NBA when Victor Wembanyama was not on the court last season. When Wembanyama was playing, not only did the Spurs jump outside of the bottom 10 defenses in the NBA, but they became a top 10 defense in the entire league. It is hard to overstate just how critical Victor Wembanyama was for the Spurs defense last season, and you could even go as far to say that he is the defense of the San Antonio Spurs.</p>
+<p>For the last chart, I wanted to go back to comparing the trajectory of Wembanyama&rsquo;s defense more individually, now knowing that his impact is off the charts. For this final chart, I decided to create a stacked bar chart to show how Wembanyama stacks up against those same legends in some more common statistics throughout everyone&rsquo;s first 127 games.</p>
 <p>The statistics I decided to focus on for this stacked bar chart were blocks per game, defensive rebounds per game, and steals per game. I wanted to focus more on defensive activity for this specific chart comparing him to the all time great defenders.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">library</span>(tidyverse)
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>wemby <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">read_csv</span>(<span style="color:#e6db74">&#34;/Users/braxtonwolfe/Documents/VictorWembanyama.csv&#34;</span>)
-</span></span></code></pre></div><pre><code>## Rows: 4 Columns: 31
+</span></span></code></pre></div><pre tabindex="0"><code>## Rows: 4 Columns: 31
 ## ── Column specification ────────────────────────────────────────────────────────
-## Delimiter: &quot;,&quot;
+## Delimiter: &#34;,&#34;
 ## chr  (6): Season, Age, Team, Lg, Pos, Awards
 ## dbl (25): G, GS, MP, FG, FGA, FG%, 3P, 3PA, 3P%, 2P, 2PA, 2P%, eFG%, FT, FTA...
 ## 
 ## ℹ Use `spec()` to retrieve the full column specification for this data.
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
-</code></pre>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>duncan <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">read_csv</span>(<span style="color:#e6db74">&#34;/Users/braxtonwolfe/Documents/TimDuncan.csv&#34;</span>)
-</span></span></code></pre></div><pre><code>## Rows: 20 Columns: 31
+</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>duncan <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">read_csv</span>(<span style="color:#e6db74">&#34;/Users/braxtonwolfe/Documents/TimDuncan.csv&#34;</span>)
+</span></span></code></pre></div><pre tabindex="0"><code>## Rows: 20 Columns: 31
 ## ── Column specification ────────────────────────────────────────────────────────
-## Delimiter: &quot;,&quot;
+## Delimiter: &#34;,&#34;
 ## chr  (6): Season, Age, Team, Lg, Pos, Awards
 ## dbl (25): G, GS, MP, FG, FGA, FG%, 3P, 3PA, 3P%, 2P, 2PA, 2P%, eFG%, FT, FTA...
 ## 
 ## ℹ Use `spec()` to retrieve the full column specification for this data.
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
-</code></pre>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>hakeem <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">read_csv</span>(<span style="color:#e6db74">&#34;/Users/braxtonwolfe/Documents/Hakeem.csv&#34;</span>)
-</span></span></code></pre></div><pre><code>## Rows: 22 Columns: 31
+</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>hakeem <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">read_csv</span>(<span style="color:#e6db74">&#34;/Users/braxtonwolfe/Documents/Hakeem.csv&#34;</span>)
+</span></span></code></pre></div><pre tabindex="0"><code>## Rows: 22 Columns: 31
 ## ── Column specification ────────────────────────────────────────────────────────
-## Delimiter: &quot;,&quot;
+## Delimiter: &#34;,&#34;
 ## chr  (6): Season, Age, Team, Lg, Pos, Awards
 ## dbl (25): G, GS, MP, FG, FGA, FG%, 3P, 3PA, 3P%, 2P, 2PA, 2P%, eFG%, FT, FTA...
 ## 
 ## ℹ Use `spec()` to retrieve the full column specification for this data.
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
-</code></pre>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>dwight <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">read_csv</span>(<span style="color:#e6db74">&#34;/Users/braxtonwolfe/Documents/DwightHoward.csv&#34;</span>)
-</span></span></code></pre></div><pre><code>## Rows: 27 Columns: 31
+</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>dwight <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">read_csv</span>(<span style="color:#e6db74">&#34;/Users/braxtonwolfe/Documents/DwightHoward.csv&#34;</span>)
+</span></span></code></pre></div><pre tabindex="0"><code>## Rows: 27 Columns: 31
 ## ── Column specification ────────────────────────────────────────────────────────
-## Delimiter: &quot;,&quot;
+## Delimiter: &#34;,&#34;
 ## chr  (6): Season, Age, Team, Lg, Pos, Awards
 ## dbl (25): G, GS, MP, FG, FGA, FG%, 3P, 3PA, 3P%, 2P, 2PA, 2P%, eFG%, FT, FTA...
 ## 
 ## ℹ Use `spec()` to retrieve the full column specification for this data.
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
-</code></pre>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>ad <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">read_csv</span>(<span style="color:#e6db74">&#34;/Users/braxtonwolfe/Desktop/AnthonyDavis.csv&#34;</span>)
-</span></span></code></pre></div><pre><code>## Rows: 21 Columns: 31
+</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>ad <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">read_csv</span>(<span style="color:#e6db74">&#34;/Users/braxtonwolfe/Desktop/AnthonyDavis.csv&#34;</span>)
+</span></span></code></pre></div><pre tabindex="0"><code>## Rows: 21 Columns: 31
 ## ── Column specification ────────────────────────────────────────────────────────
-## Delimiter: &quot;,&quot;
+## Delimiter: &#34;,&#34;
 ## chr  (6): Season, Age, Team, Lg, Pos, Awards
 ## dbl (25): G, GS, MP, FG, FGA, FG%, 3P, 3PA, 3P%, 2P, 2PA, 2P%, eFG%, FT, FTA...
 ## 
 ## ℹ Use `spec()` to retrieve the full column specification for this data.
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
-</code></pre>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>get_averages <span style="color:#f92672">&lt;-</span> <span style="color:#66d9ef">function</span>(df, name) {
+</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>get_averages <span style="color:#f92672">&lt;-</span> <span style="color:#66d9ef">function</span>(df, name) {
 </span></span><span style="display:flex;"><span>  df <span style="color:#f92672">&lt;-</span> df <span style="color:#f92672">|&gt;</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">filter</span>(<span style="color:#f92672">!</span><span style="color:#a6e22e">str_detect</span>(Season, <span style="color:#e6db74">&#34;Yrs&#34;</span>)) <span style="color:#f92672">|&gt;</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">mutate</span>(
@@ -1013,10 +510,9 @@
 </span></span><span style="display:flex;"><span>)
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#a6e22e">print</span>(<span style="color:#e6db74">&#34;Player Statistics (First 127 Games):&#34;</span>)
-</span></span></code></pre></div><pre><code>## [1] &quot;Player Statistics (First 127 Games):&quot;
-</code></pre>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">print</span>(player_averages)
-</span></span></code></pre></div><pre><code>## # A tibble: 5 × 5
+</span></span></code></pre></div><pre tabindex="0"><code>## [1] &#34;Player Statistics (First 127 Games):&#34;
+</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">print</span>(player_averages)
+</span></span></code></pre></div><pre tabindex="0"><code>## # A tibble: 5 × 5
 ##   Player            Blocks Steals Def_Rebounds Games
 ##   &lt;chr&gt;              &lt;dbl&gt;  &lt;dbl&gt;        &lt;dbl&gt; &lt;dbl&gt;
 ## 1 Victor Wembanyama   3.70  1.16          8.92   127
@@ -1024,8 +520,7 @@
 ## 3 Hakeem Olajuwon     3.02  1.56          6.55   150
 ## 4 Dwight Howard       1.55  0.85          7.75   164
 ## 5 Anthony Davis       2.31  1.25          6.32   131
-</code></pre>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>player_averages <span style="color:#f92672">&lt;-</span> player_averages <span style="color:#f92672">|&gt;</span>
+</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>player_averages <span style="color:#f92672">&lt;-</span> player_averages <span style="color:#f92672">|&gt;</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">mutate</span>(Total <span style="color:#f92672">=</span> Blocks <span style="color:#f92672">+</span> Steals <span style="color:#f92672">+</span> Def_Rebounds) <span style="color:#f92672">|&gt;</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">arrange</span>(<span style="color:#a6e22e">desc</span>(Total))
 </span></span><span style="display:flex;"><span>
@@ -1095,7 +590,7 @@
 </span></span><span style="display:flex;"><span>       width <span style="color:#f92672">=</span> <span style="color:#ae81ff">16</span>, height <span style="color:#f92672">=</span> <span style="color:#ae81ff">9</span>, dpi <span style="color:#f92672">=</span> <span style="color:#ae81ff">300</span>, bg <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;white&#34;</span>)
 </span></span></code></pre></div><p>The first aspect of this chart you may notice would be defensive rebounds per game, considering it is the largest bar on the chart for each individual. While Wembanyama has a clear height advantage over the rest of the field, it is to note that he has already gained over 25 pounds in his two and a half seasons in the NBA, and led this category with a frame that is growing at a much more rapid pace than the rest of these players.</p>
 <p>Then, one of the most dominating statistics of them all for Wembanyama, come the blocked shots. Wembanyama absolutely destroys the competition on this chart for blocks per game, blocking just under four shot attempts per game, which is the most of any NBA player this decade. With such high numbers, Wembanyama at age 21, already has the third highest streak of consecutive games with a blocked shot, which exceeds 90 games to this day. On top of his blocks, he is also active in getting steals with his incredible wingspan. However, compared to the rest of these legends, this is the first statistic he looks to be normal in, until I once again mention these are NBA legends he is being compared against.</p>
-<p>To conclude this story, it truthfully is incredible to see both the impact and individual statistics that Victor Wembanyama has achieved through just 127 games in his NBA career. In total, when comparing Wembanyama’s defensive statistics to the NBA legends on this list’s first 127 games, Victor came out on top of 71% of those. He is clearly the most impactful defender in the modern NBA currently, but with the pace he is on in all of these other categories, Victor Wembanyama is clearly on pace to becoming not only one of the most impactful, but the best defender the NBA has ever seen in any era of basketball.
+<p>To conclude this story, it truthfully is incredible to see both the impact and individual statistics that Victor Wembanyama has achieved through just 127 games in his NBA career. In total, when comparing Wembanyama&rsquo;s defensive statistics to the NBA legends on this list&rsquo;s first 127 games, Victor came out on top of 71% of those. He is clearly the most impactful defender in the modern NBA currently, but with the pace he is on in all of these other categories, Victor Wembanyama is clearly on pace to becoming not only one of the most impactful, but the best defender the NBA has ever seen in any era of basketball.
 Here is some added text to see if we still have our connection. One more test for now. Hopfullyh thus works!</p>
 
     </div>

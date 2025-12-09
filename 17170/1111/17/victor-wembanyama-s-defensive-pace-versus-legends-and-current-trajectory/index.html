@@ -60,7 +60,7 @@
 
   <article class="article">
     
-    <span class="article-duration">20 min read</span>
+    <span class="article-duration">17 min read</span>
     
 
     <h1 class="article-title">Victor Wembanyama&#39;s Defensive Pace Versus Legends And Current Trajectory</h1>
@@ -254,176 +254,116 @@
 <p>On top of block percentage, Victor Wembanyama claimed the most defensive win shares as well as defensive rebounding percentage, and it was not particularly close. When it comes to some of these advanced defensive statistics, it is clear that Victor Wembanyama&rsquo;s first 127 games are on pace to surpass some of the greatest defenders in NBA history through their first 127 games.</p>
 <p>For my second chart, I wanted to focus on the present and what his actual impact is on a defense in today&rsquo;s NBA. I felt it would be appropriate to see his actual impact on his own team compared during the course of the modern NBA, while also looking at the individual aspect comparing him to some of the all time greats.</p>
 <p>For this scatterplot, I wanted to focus on the Spurs defensive rating with Wembanyama on the court as well as without Wembanyama on the court, and compare that to the rest of the defensive ratings in the NBA. Being so early into this current season, I decided to dive into the 2024-2025 season to look at these statistics. It is also worth noting that Wembanyama missed the last two months of the season, so that made for a sizable sample size in terms of the numbers both ways for the San Antonio Spurs.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">library</span>(tidyverse)
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#75715e"># NBA Division PPG - FIXED for RStudio Viewer</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># This should display bars properly</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>team_ratings <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">read_csv</span>(<span style="color:#e6db74">&#34;/Users/braxtonwolfe/Documents/TeamDefensiveRatings.csv&#34;</span>, skip <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>)
-</span></span></code></pre></div><pre tabindex="0"><code>## Rows: 30 Columns: 15
-## ── Column specification ────────────────────────────────────────────────────────
-## Delimiter: &#34;,&#34;
-## chr  (3): Team, Conf, Div
-## dbl (12): Rk, W, L, W/L%, MOV, ORtg, DRtg, NRtg, MOV/A, ORtg/A, DRtg/A, NRtg/A
-## 
-## ℹ Use `spec()` to retrieve the full column specification for this data.
-## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
-</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>wemby_onoff <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">read_delim</span>(<span style="color:#e6db74">&#34;/Users/braxtonwolfe/Documents/WembyOnOffRatings.csv&#34;</span>, delim <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;\t&#34;</span>)
-</span></span></code></pre></div><pre tabindex="0"><code>## New names:
-## Rows: 3 Columns: 30
-## ── Column specification
-## ──────────────────────────────────────────────────────── Delimiter: &#34;\t&#34; chr
-## (3): Split, Tm, MP dbl (27): eFG%...4, ORB%...5, DRB%...6, TRB%...7, AST%...8,
-## STL%...9, BLK%.....
-## ℹ Use `spec()` to retrieve the full column specification for this data. ℹ
-## Specify the column types or set `show_col_types = FALSE` to quiet this message.
-## • `eFG%` -&gt; `eFG%...4`
-## • `ORB%` -&gt; `ORB%...5`
-## • `DRB%` -&gt; `DRB%...6`
-## • `TRB%` -&gt; `TRB%...7`
-## • `AST%` -&gt; `AST%...8`
-## • `STL%` -&gt; `STL%...9`
-## • `BLK%` -&gt; `BLK%...10`
-## • `TOV%` -&gt; `TOV%...11`
-## • `eFG%` -&gt; `eFG%...13`
-## • `ORB%` -&gt; `ORB%...14`
-## • `DRB%` -&gt; `DRB%...15`
-## • `TRB%` -&gt; `TRB%...16`
-## • `AST%` -&gt; `AST%...17`
-## • `STL%` -&gt; `STL%...18`
-## • `BLK%` -&gt; `BLK%...19`
-## • `TOV%` -&gt; `TOV%...20`
-## • `eFG%` -&gt; `eFG%...22`
-## • `ORB%` -&gt; `ORB%...23`
-## • `DRB%` -&gt; `DRB%...24`
-## • `TRB%` -&gt; `TRB%...25`
-## • `AST%` -&gt; `AST%...26`
-## • `STL%` -&gt; `STL%...27`
-## • `BLK%` -&gt; `BLK%...28`
-## • `TOV%` -&gt; `TOV%...29`
-</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>nba_teams <span style="color:#f92672">&lt;-</span> team_ratings <span style="color:#f92672">|&gt;</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">select</span>(Team, DRtg) <span style="color:#f92672">|&gt;</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">filter</span>(<span style="color:#f92672">!</span><span style="color:#a6e22e">is.na</span>(Team), <span style="color:#f92672">!</span><span style="color:#a6e22e">is.na</span>(DRtg)) <span style="color:#f92672">|&gt;</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">mutate</span>(DRtg <span style="color:#f92672">=</span> <span style="color:#a6e22e">as.numeric</span>(DRtg))
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">library</span>(tidyverse)
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">library</span>(lubridate)
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>wemby_on <span style="color:#f92672">&lt;-</span> wemby_onoff <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">filter</span>(Split <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;On Court&#34;</span>) <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">pull</span>(DFrg) <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">as.numeric</span>()
-</span></span><span style="display:flex;"><span>wemby_off <span style="color:#f92672">&lt;-</span> wemby_onoff <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">filter</span>(Split <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;Off Court&#34;</span>) <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">pull</span>(DFrg) <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">as.numeric</span>()
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">setwd</span>(<span style="color:#e6db74">&#34;~/Documents&#34;</span>)
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>nba_teams_only <span style="color:#f92672">&lt;-</span> nba_teams <span style="color:#f92672">|&gt;</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">filter</span>(Team <span style="color:#f92672">!=</span> <span style="color:#e6db74">&#34;San Antonio Spurs&#34;</span>) <span style="color:#f92672">|&gt;</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">arrange</span>(DRtg) <span style="color:#f92672">|&gt;</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">mutate</span>(rank <span style="color:#f92672">=</span> <span style="color:#a6e22e">row_number</span>())
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>all_drtgs <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">c</span>(nba_teams_only<span style="color:#f92672">$</span>DRtg, wemby_on, wemby_off)
-</span></span><span style="display:flex;"><span>wemby_on_rank <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">sum</span>(all_drtgs <span style="color:#f92672">&lt;</span> wemby_on) <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
-</span></span><span style="display:flex;"><span>wemby_off_rank <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">sum</span>(all_drtgs <span style="color:#f92672">&lt;</span> wemby_off) <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>spurs_data <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">tibble</span>(
-</span></span><span style="display:flex;"><span>  Team <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#e6db74">&#34;Spurs WITH Wembanyama&#34;</span>, <span style="color:#e6db74">&#34;Spurs WITHOUT Wembanyama&#34;</span>),
-</span></span><span style="display:flex;"><span>  DRtg <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(wemby_on, wemby_off),
-</span></span><span style="display:flex;"><span>  rank <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(wemby_on_rank, wemby_off_rank),
-</span></span><span style="display:flex;"><span>  Type <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#e6db74">&#34;With Wemby&#34;</span>, <span style="color:#e6db74">&#34;Without Wemby&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Load data</span>
+</span></span><span style="display:flex;"><span>all_teams <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">list</span>(
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">list</span>(file <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Teamdata1.csv&#34;</span>, rank <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>), <span style="color:#a6e22e">list</span>(file <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Teamdata2.csv&#34;</span>, rank <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>),
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">list</span>(file <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Teamdata3.csv&#34;</span>, rank <span style="color:#f92672">=</span> <span style="color:#ae81ff">3</span>), <span style="color:#a6e22e">list</span>(file <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Teamdata4.csv&#34;</span>, rank <span style="color:#f92672">=</span> <span style="color:#ae81ff">4</span>),
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">list</span>(file <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Teamdata5.csv&#34;</span>, rank <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>), <span style="color:#a6e22e">list</span>(file <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Teamdata6.csv&#34;</span>, rank <span style="color:#f92672">=</span> <span style="color:#ae81ff">6</span>),
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">list</span>(file <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Teamdata7.csv&#34;</span>, rank <span style="color:#f92672">=</span> <span style="color:#ae81ff">7</span>), <span style="color:#a6e22e">list</span>(file <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Teamdata8.csv&#34;</span>, rank <span style="color:#f92672">=</span> <span style="color:#ae81ff">8</span>),
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">list</span>(file <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Teamdata9.csv&#34;</span>, rank <span style="color:#f92672">=</span> <span style="color:#ae81ff">9</span>), <span style="color:#a6e22e">list</span>(file <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Teamdata10.csv&#34;</span>, rank <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>),
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">list</span>(file <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Teamdata11.csv&#34;</span>, rank <span style="color:#f92672">=</span> <span style="color:#ae81ff">11</span>), <span style="color:#a6e22e">list</span>(file <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Teamdata12.csv&#34;</span>, rank <span style="color:#f92672">=</span> <span style="color:#ae81ff">12</span>),
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">list</span>(file <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Teamdata13.csv&#34;</span>, rank <span style="color:#f92672">=</span> <span style="color:#ae81ff">13</span>), <span style="color:#a6e22e">list</span>(file <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Teamdata14.csv&#34;</span>, rank <span style="color:#f92672">=</span> <span style="color:#ae81ff">14</span>),
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">list</span>(file <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Teamdata15.csv&#34;</span>, rank <span style="color:#f92672">=</span> <span style="color:#ae81ff">15</span>), <span style="color:#a6e22e">list</span>(file <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Teamdata16.csv&#34;</span>, rank <span style="color:#f92672">=</span> <span style="color:#ae81ff">16</span>),
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">list</span>(file <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Teamdata17.csv&#34;</span>, rank <span style="color:#f92672">=</span> <span style="color:#ae81ff">17</span>), <span style="color:#a6e22e">list</span>(file <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Teamdata18.csv&#34;</span>, rank <span style="color:#f92672">=</span> <span style="color:#ae81ff">18</span>),
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">list</span>(file <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Teamdata19.csv&#34;</span>, rank <span style="color:#f92672">=</span> <span style="color:#ae81ff">19</span>), <span style="color:#a6e22e">list</span>(file <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Teamdata20.csv&#34;</span>, rank <span style="color:#f92672">=</span> <span style="color:#ae81ff">20</span>),
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">list</span>(file <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Teamdata21.csv&#34;</span>, rank <span style="color:#f92672">=</span> <span style="color:#ae81ff">21</span>), <span style="color:#a6e22e">list</span>(file <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Trailblazersdata.csv&#34;</span>, rank <span style="color:#f92672">=</span> <span style="color:#ae81ff">22</span>),
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">list</span>(file <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;sunsdata.csv&#34;</span>, rank <span style="color:#f92672">=</span> <span style="color:#ae81ff">23</span>), <span style="color:#a6e22e">list</span>(file <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;raptorsdata.csv&#34;</span>, rank <span style="color:#f92672">=</span> <span style="color:#ae81ff">24</span>),
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">list</span>(file <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;76ersdata.csv&#34;</span>, rank <span style="color:#f92672">=</span> <span style="color:#ae81ff">25</span>), <span style="color:#a6e22e">list</span>(file <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;netsdata.csv&#34;</span>, rank <span style="color:#f92672">=</span> <span style="color:#ae81ff">26</span>),
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">list</span>(file <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;JazzData.csv&#34;</span>, rank <span style="color:#f92672">=</span> <span style="color:#ae81ff">27</span>), <span style="color:#a6e22e">list</span>(file <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;HornetsData.csv&#34;</span>, rank <span style="color:#f92672">=</span> <span style="color:#ae81ff">28</span>),
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">list</span>(file <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;PelicansData.csv&#34;</span>, rank <span style="color:#f92672">=</span> <span style="color:#ae81ff">29</span>), <span style="color:#a6e22e">list</span>(file <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Wizardsdata.csv&#34;</span>, rank <span style="color:#f92672">=</span> <span style="color:#ae81ff">30</span>)
 </span></span><span style="display:flex;"><span>)
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>nba_teams_only <span style="color:#f92672">&lt;-</span> nba_teams_only <span style="color:#f92672">|&gt;</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">mutate</span>(Type <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;NBA Teams&#34;</span>)
+</span></span><span style="display:flex;"><span>all_data <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">data.frame</span>()
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span>(team_info <span style="color:#66d9ef">in</span> all_teams) {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span>(<span style="color:#f92672">!</span><span style="color:#a6e22e">file.exists</span>(team_info<span style="color:#f92672">$</span>file)) <span style="color:#66d9ef">next</span>
+</span></span><span style="display:flex;"><span>  team_data <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">read.csv</span>(team_info<span style="color:#f92672">$</span>file, skip <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>, stringsAsFactors <span style="color:#f92672">=</span> <span style="color:#66d9ef">FALSE</span>)
+</span></span><span style="display:flex;"><span>  team_data <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">data.frame</span>(
+</span></span><span style="display:flex;"><span>    Date <span style="color:#f92672">=</span> team_data[, <span style="color:#ae81ff">3</span>], Points <span style="color:#f92672">=</span> team_data[, <span style="color:#ae81ff">7</span>]
+</span></span><span style="display:flex;"><span>  ) <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">filter</span>(<span style="color:#f92672">!</span><span style="color:#a6e22e">is.na</span>(Date) <span style="color:#f92672">&amp;</span> Date <span style="color:#f92672">!=</span> <span style="color:#e6db74">&#34;&#34;</span>) <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">mutate</span>(Team_Rank <span style="color:#f92672">=</span> team_info<span style="color:#f92672">$</span>rank)
+</span></span><span style="display:flex;"><span>  all_data <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">rbind</span>(all_data, team_data)
+</span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>plot_data <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">bind_rows</span>(
-</span></span><span style="display:flex;"><span>  nba_teams_only <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">select</span>(Team, DRtg, rank, Type),
-</span></span><span style="display:flex;"><span>  spurs_data
-</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>all_data<span style="color:#f92672">$</span>Date <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">ymd</span>(all_data<span style="color:#f92672">$</span>Date)
+</span></span></code></pre></div><pre tabindex="0"><code>## Warning: 81 failed to parse.
+</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>all_data<span style="color:#f92672">$</span>Points <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">as.numeric</span>(all_data<span style="color:#f92672">$</span>Points)
+</span></span></code></pre></div><pre tabindex="0"><code>## Warning: NAs introduced by coercion
+</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span>all_data <span style="color:#f92672">&lt;-</span> all_data <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">arrange</span>(Team_Rank, Date)
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">cat</span>(<span style="color:#e6db74">&#34;\n=== WEMBANYAMA DEFENSIVE IMPACT ===\n\n&#34;</span>)
+</span></span><span style="display:flex;"><span>all_data <span style="color:#f92672">&lt;-</span> all_data <span style="color:#f92672">%&gt;%</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">group_by</span>(Team_Rank) <span style="color:#f92672">%&gt;%</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">mutate</span>(Days_Rest <span style="color:#f92672">=</span> <span style="color:#a6e22e">as.numeric</span>(Date <span style="color:#f92672">-</span> <span style="color:#a6e22e">lag</span>(Date))) <span style="color:#f92672">%&gt;%</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">ungroup</span>() <span style="color:#f92672">%&gt;%</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">mutate</span>(Game_Type <span style="color:#f92672">=</span> <span style="color:#a6e22e">ifelse</span>(Days_Rest <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>, <span style="color:#e6db74">&#34;B2B&#34;</span>, 
+</span></span><span style="display:flex;"><span>                             <span style="color:#a6e22e">ifelse</span>(Days_Rest <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">2</span>, <span style="color:#e6db74">&#34;Rest&#34;</span>, <span style="color:#66d9ef">NA</span>))) <span style="color:#f92672">%&gt;%</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">filter</span>(<span style="color:#f92672">!</span><span style="color:#a6e22e">is.na</span>(Game_Type))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>divisions <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">c</span>(<span style="color:#e6db74">&#34;Northwest&#34;</span>, <span style="color:#e6db74">&#34;Atlantic&#34;</span>, <span style="color:#e6db74">&#34;Central&#34;</span>, <span style="color:#e6db74">&#34;Northwest&#34;</span>, <span style="color:#e6db74">&#34;Pacific&#34;</span>, <span style="color:#e6db74">&#34;Southwest&#34;</span>,
+</span></span><span style="display:flex;"><span>               <span style="color:#e6db74">&#34;Southwest&#34;</span>, <span style="color:#e6db74">&#34;Atlantic&#34;</span>, <span style="color:#e6db74">&#34;Northwest&#34;</span>, <span style="color:#e6db74">&#34;Pacific&#34;</span>, <span style="color:#e6db74">&#34;Central&#34;</span>, <span style="color:#e6db74">&#34;Central&#34;</span>,
+</span></span><span style="display:flex;"><span>               <span style="color:#e6db74">&#34;Central&#34;</span>, <span style="color:#e6db74">&#34;Pacific&#34;</span>, <span style="color:#e6db74">&#34;Southeast&#34;</span>, <span style="color:#e6db74">&#34;Pacific&#34;</span>, <span style="color:#e6db74">&#34;Southeast&#34;</span>, <span style="color:#e6db74">&#34;Southeast&#34;</span>,
+</span></span><span style="display:flex;"><span>               <span style="color:#e6db74">&#34;Southwest&#34;</span>, <span style="color:#e6db74">&#34;Central&#34;</span>, <span style="color:#e6db74">&#34;Southwest&#34;</span>, <span style="color:#e6db74">&#34;Northwest&#34;</span>, <span style="color:#e6db74">&#34;Pacific&#34;</span>, <span style="color:#e6db74">&#34;Atlantic&#34;</span>,
+</span></span><span style="display:flex;"><span>               <span style="color:#e6db74">&#34;Atlantic&#34;</span>, <span style="color:#e6db74">&#34;Atlantic&#34;</span>, <span style="color:#e6db74">&#34;Northwest&#34;</span>, <span style="color:#e6db74">&#34;Southeast&#34;</span>, <span style="color:#e6db74">&#34;Southwest&#34;</span>, <span style="color:#e6db74">&#34;Southeast&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>all_data<span style="color:#f92672">$</span>Division <span style="color:#f92672">&lt;-</span> divisions[all_data<span style="color:#f92672">$</span>Team_Rank]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Calculate averages</span>
+</span></span><span style="display:flex;"><span>summary_data <span style="color:#f92672">&lt;-</span> all_data <span style="color:#f92672">%&gt;%</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">group_by</span>(Division, Game_Type) <span style="color:#f92672">%&gt;%</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">summarise</span>(PPG <span style="color:#f92672">=</span> <span style="color:#a6e22e">mean</span>(Points, na.rm <span style="color:#f92672">=</span> <span style="color:#66d9ef">TRUE</span>), .groups <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;drop&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Make sure data is clean</span>
+</span></span><span style="display:flex;"><span>summary_data <span style="color:#f92672">&lt;-</span> summary_data <span style="color:#f92672">%&gt;%</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">filter</span>(<span style="color:#f92672">!</span><span style="color:#a6e22e">is.na</span>(PPG) <span style="color:#f92672">&amp;</span> <span style="color:#f92672">!</span><span style="color:#a6e22e">is.na</span>(Division) <span style="color:#f92672">&amp;</span> <span style="color:#f92672">!</span><span style="color:#a6e22e">is.na</span>(Game_Type))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">cat</span>(<span style="color:#e6db74">&#34;\n=== PLOTTING DATA ===\n&#34;</span>)
 </span></span></code></pre></div><pre tabindex="0"><code>## 
-## === WEMBANYAMA DEFENSIVE IMPACT ===
-</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">cat</span>(<span style="color:#a6e22e">sprintf</span>(<span style="color:#e6db74">&#34;Spurs WITH Wembanyama: %.1f DRtg (Rank: #%d)\n&#34;</span>, wemby_on, wemby_on_rank))
-</span></span></code></pre></div><pre tabindex="0"><code>## Spurs WITH Wembanyama: 112.7 DRtg (Rank: #9)
-</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">cat</span>(<span style="color:#a6e22e">sprintf</span>(<span style="color:#e6db74">&#34;Spurs WITHOUT Wembanyama: %.1f DRtg (Rank: #%d)\n&#34;</span>, wemby_off, wemby_off_rank))
-</span></span></code></pre></div><pre tabindex="0"><code>## Spurs WITHOUT Wembanyama: 120.5 DRtg (Rank: #30)
-</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">cat</span>(<span style="color:#a6e22e">sprintf</span>(<span style="color:#e6db74">&#34;IMPACT: %d positions | %.1f point difference\n\n&#34;</span>, 
-</span></span><span style="display:flex;"><span>            wemby_off_rank <span style="color:#f92672">-</span> wemby_on_rank, wemby_off <span style="color:#f92672">-</span> wemby_on))
-</span></span></code></pre></div><pre tabindex="0"><code>## IMPACT: 21 positions | 7.8 point difference
-</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">ggplot</span>(plot_data, <span style="color:#a6e22e">aes</span>(x <span style="color:#f92672">=</span> rank, y <span style="color:#f92672">=</span> DRtg)) <span style="color:#f92672">+</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">theme_minimal</span>(base_size <span style="color:#f92672">=</span> <span style="color:#ae81ff">13</span>) <span style="color:#f92672">+</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">annotate</span>(<span style="color:#e6db74">&#34;rect&#34;</span>, xmin <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, xmax <span style="color:#f92672">=</span> <span style="color:#ae81ff">10.5</span>, ymin <span style="color:#f92672">=</span> <span style="color:#ae81ff">105</span>, ymax <span style="color:#f92672">=</span> <span style="color:#ae81ff">113</span>, 
-</span></span><span style="display:flex;"><span>           fill <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;#90EE90&#34;</span>, alpha <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.08</span>) <span style="color:#f92672">+</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">annotate</span>(<span style="color:#e6db74">&#34;rect&#34;</span>, xmin <span style="color:#f92672">=</span> <span style="color:#ae81ff">25</span>, xmax <span style="color:#f92672">=</span> <span style="color:#ae81ff">32</span>, ymin <span style="color:#f92672">=</span> <span style="color:#ae81ff">117</span>, ymax <span style="color:#f92672">=</span> <span style="color:#ae81ff">123</span>, 
-</span></span><span style="display:flex;"><span>           fill <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;#FFB6C1&#34;</span>, alpha <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.08</span>) <span style="color:#f92672">+</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">geom_point</span>(data <span style="color:#f92672">=</span> <span style="color:#a6e22e">filter</span>(plot_data, Type <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;NBA Teams&#34;</span>),
-</span></span><span style="display:flex;"><span>             size <span style="color:#f92672">=</span> <span style="color:#ae81ff">4</span>, color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;gray40&#34;</span>, alpha <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.7</span>) <span style="color:#f92672">+</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">geom_point</span>(data <span style="color:#f92672">=</span> <span style="color:#a6e22e">filter</span>(plot_data, Type <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;With Wemby&#34;</span>),
-</span></span><span style="display:flex;"><span>             size <span style="color:#f92672">=</span> <span style="color:#ae81ff">4</span>, color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;#2ca02c&#34;</span>) <span style="color:#f92672">+</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">geom_point</span>(data <span style="color:#f92672">=</span> <span style="color:#a6e22e">filter</span>(plot_data, Type <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;Without Wemby&#34;</span>),
-</span></span><span style="display:flex;"><span>             size <span style="color:#f92672">=</span> <span style="color:#ae81ff">4</span>, color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;#d62728&#34;</span>) <span style="color:#f92672">+</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">geom_segment</span>(data <span style="color:#f92672">=</span> spurs_data,
-</span></span><span style="display:flex;"><span>               <span style="color:#a6e22e">aes</span>(x <span style="color:#f92672">=</span> spurs_data<span style="color:#f92672">$</span>rank[1], xend <span style="color:#f92672">=</span> spurs_data<span style="color:#f92672">$</span>rank[2],
-</span></span><span style="display:flex;"><span>                   y <span style="color:#f92672">=</span> spurs_data<span style="color:#f92672">$</span>DRtg[1], yend <span style="color:#f92672">=</span> spurs_data<span style="color:#f92672">$</span>DRtg[2]),
-</span></span><span style="display:flex;"><span>               arrow <span style="color:#f92672">=</span> <span style="color:#a6e22e">arrow</span>(length <span style="color:#f92672">=</span> <span style="color:#a6e22e">unit</span>(<span style="color:#ae81ff">0.3</span>, <span style="color:#e6db74">&#34;cm&#34;</span>), type <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;closed&#34;</span>),
-</span></span><span style="display:flex;"><span>               linewidth <span style="color:#f92672">=</span> <span style="color:#ae81ff">1.5</span>, color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;#C4CED4&#34;</span>, alpha <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.7</span>) <span style="color:#f92672">+</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">annotate</span>(<span style="color:#e6db74">&#34;text&#34;</span>, x <span style="color:#f92672">=</span> <span style="color:#ae81ff">20</span>, y <span style="color:#f92672">=</span> <span style="color:#ae81ff">121</span>, 
-</span></span><span style="display:flex;"><span>           label <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;WITH Wembanyama&#34;</span>, 
-</span></span><span style="display:flex;"><span>           hjust <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, size <span style="color:#f92672">=</span> <span style="color:#ae81ff">3.5</span>, fontface <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bold&#34;</span>, color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;#2ca02c&#34;</span>) <span style="color:#f92672">+</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">annotate</span>(<span style="color:#e6db74">&#34;text&#34;</span>, x <span style="color:#f92672">=</span> <span style="color:#ae81ff">20</span>, y <span style="color:#f92672">=</span> <span style="color:#ae81ff">119.5</span>, 
-</span></span><span style="display:flex;"><span>           label <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;WITHOUT Wembanyama&#34;</span>, 
-</span></span><span style="display:flex;"><span>           hjust <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, size <span style="color:#f92672">=</span> <span style="color:#ae81ff">3.5</span>, fontface <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bold&#34;</span>, color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;#d62728&#34;</span>) <span style="color:#f92672">+</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">annotate</span>(<span style="color:#e6db74">&#34;text&#34;</span>, x <span style="color:#f92672">=</span> <span style="color:#ae81ff">20</span>, y <span style="color:#f92672">=</span> <span style="color:#ae81ff">118</span>, 
-</span></span><span style="display:flex;"><span>           label <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Other NBA Teams&#34;</span>, 
-</span></span><span style="display:flex;"><span>           hjust <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, size <span style="color:#f92672">=</span> <span style="color:#ae81ff">3.5</span>, fontface <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bold&#34;</span>, color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;gray40&#34;</span>) <span style="color:#f92672">+</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">labs</span>(
-</span></span><span style="display:flex;"><span>    title <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;The Two Polar Opposites Of The Spurs Defense&#34;</span>,
-</span></span><span style="display:flex;"><span>    subtitle <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;2024-25 NBA Season: Defensive Rating by Team Rank&#34;</span>,
-</span></span><span style="display:flex;"><span>    x <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Team Defensive Rank (30 = Worst Defense, 1 = Best Defense)&#34;</span>,
-</span></span><span style="display:flex;"><span>    y <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Defensive Rating (Points Allowed per 100 Possessions)&#34;</span>,
-</span></span><span style="display:flex;"><span>    caption <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Lower defensive rating is better (top of chart) | Data: Basketball Reference&#34;</span>
-</span></span><span style="display:flex;"><span>  ) <span style="color:#f92672">+</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">theme</span>(
-</span></span><span style="display:flex;"><span>    plot.title <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">15</span>, face <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bold&#34;</span>, hjust <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.5</span>, margin <span style="color:#f92672">=</span> <span style="color:#a6e22e">margin</span>(b <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>)),
-</span></span><span style="display:flex;"><span>    plot.subtitle <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">11</span>, hjust <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.5</span>, margin <span style="color:#f92672">=</span> <span style="color:#a6e22e">margin</span>(b <span style="color:#f92672">=</span> <span style="color:#ae81ff">15</span>)),
-</span></span><span style="display:flex;"><span>    plot.caption <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">9</span>, hjust <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.5</span>, margin <span style="color:#f92672">=</span> <span style="color:#a6e22e">margin</span>(t <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>), color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;gray40&#34;</span>),
-</span></span><span style="display:flex;"><span>    axis.title.x <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">11</span>, face <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bold&#34;</span>, margin <span style="color:#f92672">=</span> <span style="color:#a6e22e">margin</span>(t <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>)),
-</span></span><span style="display:flex;"><span>    axis.title.y <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>, face <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bold&#34;</span>, margin <span style="color:#f92672">=</span> <span style="color:#a6e22e">margin</span>(r <span style="color:#f92672">=</span> <span style="color:#ae81ff">4</span>)),
-</span></span><span style="display:flex;"><span>    axis.text <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(size <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>),
-</span></span><span style="display:flex;"><span>    panel.grid.major <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_line</span>(color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;gray85&#34;</span>, linewidth <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.5</span>),
-</span></span><span style="display:flex;"><span>    panel.grid.minor <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_line</span>(color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;gray92&#34;</span>, linewidth <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.3</span>),
-</span></span><span style="display:flex;"><span>    plot.background <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_rect</span>(fill <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;white&#34;</span>, color <span style="color:#f92672">=</span> <span style="color:#66d9ef">NA</span>),
-</span></span><span style="display:flex;"><span>    panel.background <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_rect</span>(fill <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;white&#34;</span>, color <span style="color:#f92672">=</span> <span style="color:#66d9ef">NA</span>),
-</span></span><span style="display:flex;"><span>    plot.margin <span style="color:#f92672">=</span> <span style="color:#a6e22e">margin</span>(<span style="color:#ae81ff">20</span>, <span style="color:#ae81ff">20</span>, <span style="color:#ae81ff">20</span>, <span style="color:#ae81ff">20</span>)
-</span></span><span style="display:flex;"><span>  ) <span style="color:#f92672">+</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">scale_x_reverse</span>(breaks <span style="color:#f92672">=</span> <span style="color:#a6e22e">seq</span>(<span style="color:#ae81ff">30</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">-5</span>), limits <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">32</span>, <span style="color:#ae81ff">-1</span>)) <span style="color:#f92672">+</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">scale_y_reverse</span>(breaks <span style="color:#f92672">=</span> <span style="color:#a6e22e">seq</span>(<span style="color:#ae81ff">122</span>, <span style="color:#ae81ff">106</span>, <span style="color:#ae81ff">-2</span>), limits <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">123</span>, <span style="color:#ae81ff">106</span>))
-</span></span></code></pre></div><pre tabindex="0"><code>## Warning: Use of `spurs_data$rank` is discouraged.
-## ℹ Use `rank` instead.
-</code></pre><pre tabindex="0"><code>## Warning: Use of `spurs_data$DRtg` is discouraged.
-## ℹ Use `DRtg` instead.
-</code></pre><pre tabindex="0"><code>## Warning: Use of `spurs_data$rank` is discouraged.
-## ℹ Use `rank` instead.
-</code></pre><pre tabindex="0"><code>## Warning: Use of `spurs_data$DRtg` is discouraged.
-## ℹ Use `DRtg` instead.
-</code></pre><pre tabindex="0"><code>## Warning in geom_segment(data = spurs_data, aes(x = spurs_data$rank[1], xend = spurs_data$rank[2], : All aesthetics have length 1, but the data has 2 rows.
-## ℹ Please consider using `annotate()` or provide this layer with data containing
-##   a single row.
-</code></pre><pre tabindex="0"><code>## Warning: Removed 1 row containing missing values or values outside the scale range
-## (`geom_rect()`).
-</code></pre><img src="/17170/1111/17/victor-wembanyama-s-defensive-pace-versus-legends-and-current-trajectory/index_files/figure-html/unnamed-chunk-2-1.png" width="672" />
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">ggsave</span>(<span style="color:#e6db74">&#34;/Users/braxtonwolfe/Documents/wembanyama_defensive_impact.png&#34;</span>, 
-</span></span><span style="display:flex;"><span>       width <span style="color:#f92672">=</span> <span style="color:#ae81ff">13</span>, height <span style="color:#f92672">=</span> <span style="color:#ae81ff">8</span>, dpi <span style="color:#f92672">=</span> <span style="color:#ae81ff">300</span>, bg <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;white&#34;</span>)
-</span></span></code></pre></div><pre tabindex="0"><code>## Warning: Use of `spurs_data$rank` is discouraged.
-## ℹ Use `rank` instead.
-</code></pre><pre tabindex="0"><code>## Warning: Use of `spurs_data$DRtg` is discouraged.
-## ℹ Use `DRtg` instead.
-</code></pre><pre tabindex="0"><code>## Warning: Use of `spurs_data$rank` is discouraged.
-## ℹ Use `rank` instead.
-</code></pre><pre tabindex="0"><code>## Warning: Use of `spurs_data$DRtg` is discouraged.
-## ℹ Use `DRtg` instead.
-</code></pre><pre tabindex="0"><code>## Warning in geom_segment(data = spurs_data, aes(x = spurs_data$rank[1], xend = spurs_data$rank[2], : All aesthetics have length 1, but the data has 2 rows.
-## ℹ Please consider using `annotate()` or provide this layer with data containing
-##   a single row.
-</code></pre><pre tabindex="0"><code>## Warning: Removed 1 row containing missing values or values outside the scale range
-## (`geom_rect()`).
-</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">cat</span>(<span style="color:#e6db74">&#34;\n✓ FLIPPED scatterplot saved: wembanyama_defensive_impact.png\n&#34;</span>)
+## === PLOTTING DATA ===
+</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">print</span>(summary_data)
+</span></span></code></pre></div><pre tabindex="0"><code>## # A tibble: 12 × 3
+##    Division  Game_Type   PPG
+##    &lt;chr&gt;     &lt;chr&gt;     &lt;dbl&gt;
+##  1 Atlantic  B2B        109.
+##  2 Atlantic  Rest       111.
+##  3 Central   B2B        110.
+##  4 Central   Rest       113.
+##  5 Northwest B2B        109.
+##  6 Northwest Rest       113.
+##  7 Pacific   B2B        117.
+##  8 Pacific   Rest       118.
+##  9 Southeast B2B        107.
+## 10 Southeast Rest       111.
+## 11 Southwest B2B        108.
+## 12 Southwest Rest       110.
+</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">cat</span>(<span style="color:#e6db74">&#34;\n&#34;</span>)
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#75715e"># Create simple plot - NO LIMITS</span>
+</span></span><span style="display:flex;"><span>p <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">ggplot</span>(summary_data, <span style="color:#a6e22e">aes</span>(x <span style="color:#f92672">=</span> Division, y <span style="color:#f92672">=</span> PPG, fill <span style="color:#f92672">=</span> Game_Type)) <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">geom_col</span>(position <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;dodge&#34;</span>, width <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.7</span>) <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">scale_fill_manual</span>(values <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#e6db74">&#34;B2B&#34;</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;#EE5A6F&#34;</span>, <span style="color:#e6db74">&#34;Rest&#34;</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;#3498DB&#34;</span>),
+</span></span><span style="display:flex;"><span>                    labels <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#e6db74">&#34;B2B&#34;</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;2nd Night B2B&#34;</span>, <span style="color:#e6db74">&#34;Rest&#34;</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;With Rest&#34;</span>)) <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">labs</span>(title <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Division Scoring: B2B vs Rest&#34;</span>,
+</span></span><span style="display:flex;"><span>       y <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Points Per Game&#34;</span>, 
+</span></span><span style="display:flex;"><span>       x <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Division&#34;</span>, 
+</span></span><span style="display:flex;"><span>       fill <span style="color:#f92672">=</span> <span style="color:#66d9ef">NULL</span>) <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">theme_minimal</span>(base_size <span style="color:#f92672">=</span> <span style="color:#ae81ff">14</span>) <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">theme</span>(legend.position <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;top&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">print</span>(p)
+</span></span></code></pre></div><img src="/17170/1111/17/victor-wembanyama-s-defensive-pace-versus-legends-and-current-trajectory/index_files/figure-html/unnamed-chunk-2-1.png" width="672" />
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">cat</span>(<span style="color:#e6db74">&#34;\n✓ If you see bars above, we&#39;re good!\n&#34;</span>)
 </span></span></code></pre></div><pre tabindex="0"><code>## 
-## ✓ FLIPPED scatterplot saved: wembanyama_defensive_impact.png
-</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">cat</span>(<span style="color:#e6db74">&#34;Green dot (WITH Wemby) now in TOP-RIGHT = Elite!\n&#34;</span>)
-</span></span></code></pre></div><pre tabindex="0"><code>## Green dot (WITH Wemby) now in TOP-RIGHT = Elite!
-</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">cat</span>(<span style="color:#e6db74">&#34;Red dot (WITHOUT Wemby) now in BOTTOM-LEFT = Poor!\n&#34;</span>)
-</span></span></code></pre></div><pre tabindex="0"><code>## Red dot (WITHOUT Wemby) now in BOTTOM-LEFT = Poor!
+## ✓ If you see bars above, we&#39;re good!
+</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">cat</span>(<span style="color:#e6db74">&#34;✓ If not, check the saved PNG file\n&#34;</span>)
+</span></span></code></pre></div><pre tabindex="0"><code>## ✓ If not, check the saved PNG file
+</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">ggsave</span>(<span style="color:#e6db74">&#34;nba_division_ggplot_fixed.png&#34;</span>, width <span style="color:#f92672">=</span> <span style="color:#ae81ff">14</span>, height <span style="color:#f92672">=</span> <span style="color:#ae81ff">9</span>, dpi <span style="color:#f92672">=</span> <span style="color:#ae81ff">300</span>, bg <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;white&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">cat</span>(<span style="color:#e6db74">&#34;✓ Also saved as &#39;nba_division_ggplot_fixed.png&#39;\n&#34;</span>)
+</span></span></code></pre></div><pre tabindex="0"><code>## ✓ Also saved as &#39;nba_division_ggplot_fixed.png&#39;
 </code></pre><p>As you can see in this scatterplot, the Spurs defensive rating with Victor Wembanyama is coded in green, while the Spurs defensive rating without Victor Wembanyama is coded in red. The rest of the teams in the NBA are the darker colored dots on the scatterplot. In the NBA, a lower number for defensive rating indicates a better defense, while a higher number will put you at the bottom of the league.</p>
 <p>The story this chart tells about Wembanyama&rsquo;s defensive impact in the modern NBA in only his second season is pretty incredible. The Spurs defense was ranked dead last in the NBA when Victor Wembanyama was not on the court last season. When Wembanyama was playing, not only did the Spurs jump outside of the bottom 10 defenses in the NBA, but they became a top 10 defense in the entire league. It is hard to overstate just how critical Victor Wembanyama was for the Spurs defense last season, and you could even go as far to say that he is the defense of the San Antonio Spurs.</p>
 <p>For the last chart, I wanted to go back to comparing the trajectory of Wembanyama&rsquo;s defense more individually, now knowing that his impact is off the charts. For this final chart, I decided to create a stacked bar chart to show how Wembanyama stacks up against those same legends in some more common statistics throughout everyone&rsquo;s first 127 games.</p>

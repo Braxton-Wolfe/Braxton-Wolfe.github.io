@@ -60,7 +60,7 @@
 
   <article class="article">
     
-    <span class="article-duration">17 min read</span>
+    <span class="article-duration">18 min read</span>
     
 
     <h1 class="article-title">Victor Wembanyama&#39;s Defensive Pace Versus Legends And Current Trajectory</h1>
@@ -76,7 +76,6 @@
 <p>In my first table chart, I wanted to compare Wembanyama to some of the greatest defenders of each generation. Specifically, comparing him to some of the best defending bigs the world has ever seen. For this table chart I wanted to look at some of the advanced metrics and compare Wembanyama&rsquo;s first 127 career games to these greats to see how he is stacking up to those defensive legends and figure out the trajectory he is at in claiming the most impactful defender of all time spot. In this chart, the defensive statistics that I focused on were Defensive Win Shares, Block Percentage, Defensive Rebound Percentage, and Defensive Box Plus/Minus. Quick Check</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#75715e"># NBA Back-to-Back Win Percentage - VERTICAL Dumbbell Chart</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># Teams on X-axis, Win % on Y-axis (like the example)</span>
-</span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#a6e22e">library</span>(tidyverse)
 </span></span></code></pre></div><pre tabindex="0"><code>## Warning: package &#39;lubridate&#39; was built under R version 4.3.3
 </code></pre><pre tabindex="0"><code>## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
@@ -90,8 +89,41 @@
 ## ✖ dplyr::lag()    masks stats::lag()
 ## ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors
 </code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">library</span>(lubridate)
-</span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#a6e22e">setwd</span>(<span style="color:#e6db74">&#34;~/Documents&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Team name mapping (positions 1-30 match your Teamdata file numbers)</span>
+</span></span><span style="display:flex;"><span>team_names <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">c</span>(
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;Nuggets&#34;</span>,      <span style="color:#75715e"># 1</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;Celtics&#34;</span>,      <span style="color:#75715e"># 2</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;Bucks&#34;</span>,        <span style="color:#75715e"># 3</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;Timberwolves&#34;</span>, <span style="color:#75715e"># 4</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;Thunder&#34;</span>,     <span style="color:#75715e"># 5</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;Mavericks&#34;</span>,    <span style="color:#75715e"># 6</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;Rockets&#34;</span>,      <span style="color:#75715e"># 7</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;Knicks&#34;</span>,       <span style="color:#75715e"># 8</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;Warriors&#34;</span>,      <span style="color:#75715e"># 9</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;Clippers&#34;</span>,     <span style="color:#75715e"># 10</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;Bulls&#34;</span>,        <span style="color:#75715e"># 11</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;Cavaliers&#34;</span>,    <span style="color:#75715e"># 12</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;Trail Blazers&#34;</span>,      <span style="color:#75715e"># 13</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;Lakers&#34;</span>,       <span style="color:#75715e"># 14</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;Hawks&#34;</span>,        <span style="color:#75715e"># 15</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;Kings&#34;</span>,        <span style="color:#75715e"># 16</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;Heat&#34;</span>,         <span style="color:#75715e"># 17</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;Magic&#34;</span>,        <span style="color:#75715e"># 18</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;Spurs&#34;</span>,        <span style="color:#75715e"># 19</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;Pacers&#34;</span>,       <span style="color:#75715e"># 20</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;Grizzlies&#34;</span>,    <span style="color:#75715e"># 21</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;Pistons&#34;</span>,<span style="color:#75715e"># 22</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;Suns&#34;</span>,         <span style="color:#75715e"># 23</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;Raptors&#34;</span>,      <span style="color:#75715e"># 24</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;76ers&#34;</span>,        <span style="color:#75715e"># 25</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;Nets&#34;</span>,         <span style="color:#75715e"># 26</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;Jazz&#34;</span>,         <span style="color:#75715e"># 27</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;Hornets&#34;</span>,      <span style="color:#75715e"># 28</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;Pelicans&#34;</span>,     <span style="color:#75715e"># 29</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;Wizards&#34;</span>       <span style="color:#75715e"># 30</span>
+</span></span><span style="display:flex;"><span>)
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># Load data with team IDs</span>
 </span></span><span style="display:flex;"><span>team_files <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">list.files</span>(pattern <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Teamdata.*\\.csv$&#34;</span>, full.names <span style="color:#f92672">=</span> <span style="color:#66d9ef">TRUE</span>)
@@ -110,7 +142,7 @@
 </span></span><span style="display:flex;"><span>  
 </span></span><span style="display:flex;"><span>  team_data <span style="color:#f92672">&lt;-</span> team_data <span style="color:#f92672">%&gt;%</span> 
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">filter</span>(<span style="color:#f92672">!</span><span style="color:#a6e22e">is.na</span>(Date) <span style="color:#f92672">&amp;</span> Date <span style="color:#f92672">!=</span> <span style="color:#e6db74">&#34;&#34;</span>) <span style="color:#f92672">%&gt;%</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">mutate</span>(Team_ID <span style="color:#f92672">=</span> <span style="color:#a6e22e">sprintf</span>(<span style="color:#e6db74">&#34;Team %d&#34;</span>, i))
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">mutate</span>(Team_ID <span style="color:#f92672">=</span> i)  <span style="color:#75715e"># Keep as number for now</span>
 </span></span><span style="display:flex;"><span>  
 </span></span><span style="display:flex;"><span>  all_data <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">rbind</span>(all_data, team_data)
 </span></span><span style="display:flex;"><span>}
@@ -154,9 +186,12 @@
 </span></span><span style="display:flex;"><span>  ) <span style="color:#f92672">%&gt;%</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">pivot_wider</span>(names_from <span style="color:#f92672">=</span> Game_Type, values_from <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(Games, Win_Pct))
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Calculate gap and sort</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Add team names and calculate gap</span>
 </span></span><span style="display:flex;"><span>team_summary <span style="color:#f92672">&lt;-</span> team_summary <span style="color:#f92672">%&gt;%</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">mutate</span>(Gap <span style="color:#f92672">=</span> Win_Pct_Rest <span style="color:#f92672">-</span> Win_Pct_B2B) <span style="color:#f92672">%&gt;%</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">mutate</span>(
+</span></span><span style="display:flex;"><span>    Team_Name <span style="color:#f92672">=</span> team_names[Team_ID],
+</span></span><span style="display:flex;"><span>    Gap <span style="color:#f92672">=</span> Win_Pct_Rest <span style="color:#f92672">-</span> Win_Pct_B2B
+</span></span><span style="display:flex;"><span>  ) <span style="color:#f92672">%&gt;%</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">arrange</span>(<span style="color:#a6e22e">desc</span>(Gap))
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#a6e22e">cat</span>(<span style="color:#a6e22e">sprintf</span>(<span style="color:#e6db74">&#34;\n=== Data Check ===\n&#34;</span>))
@@ -164,17 +199,20 @@
 ## === Data Check ===
 </code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">cat</span>(<span style="color:#a6e22e">sprintf</span>(<span style="color:#e6db74">&#34;Total teams: %d\n&#34;</span>, <span style="color:#a6e22e">nrow</span>(team_summary)))
 </span></span></code></pre></div><pre tabindex="0"><code>## Total teams: 21
-</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">cat</span>(<span style="color:#e6db74">&#34;All teams:\n&#34;</span>)
-</span></span></code></pre></div><pre tabindex="0"><code>## All teams:
-</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">print</span>(team_summary<span style="color:#f92672">$</span>Team_ID)
-</span></span></code></pre></div><pre tabindex="0"><code>##  [1] &#34;Team 7&#34;  &#34;Team 22&#34; &#34;Team 10&#34; &#34;Team 17&#34; &#34;Team 2&#34;  &#34;Team 11&#34; &#34;Team 4&#34; 
-##  [8] &#34;Team 1&#34;  &#34;Team 5&#34;  &#34;Team 27&#34; &#34;Team 9&#34;  &#34;Team 25&#34; &#34;Team 12&#34; &#34;Team 26&#34;
-## [15] &#34;Team 24&#34; &#34;Team 6&#34;  &#34;Team 3&#34;  &#34;Team 14&#34; &#34;Team 13&#34; &#34;Team 8&#34;  &#34;Team 16&#34;
-</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#75715e"># Create VERTICAL dumbbell with READABLE numbers</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">ggplot</span>(team_summary, <span style="color:#a6e22e">aes</span>(x <span style="color:#f92672">=</span> <span style="color:#a6e22e">reorder</span>(Team_ID, <span style="color:#f92672">-</span>Gap))) <span style="color:#f92672">+</span>
+</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">cat</span>(<span style="color:#e6db74">&#34;Teams included:\n&#34;</span>)
+</span></span></code></pre></div><pre tabindex="0"><code>## Teams included:
+</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">print</span>(team_summary<span style="color:#f92672">$</span>Team_Name)
+</span></span></code></pre></div><pre tabindex="0"><code>##  [1] &#34;Rockets&#34;       &#34;Pistons&#34;       &#34;Clippers&#34;      &#34;Heat&#34;         
+##  [5] &#34;Celtics&#34;       &#34;Bulls&#34;         &#34;Timberwolves&#34;  &#34;Nuggets&#34;      
+##  [9] &#34;Thunder&#34;       &#34;Jazz&#34;          &#34;Warriors&#34;      &#34;76ers&#34;        
+## [13] &#34;Cavaliers&#34;     &#34;Nets&#34;          &#34;Raptors&#34;       &#34;Mavericks&#34;    
+## [17] &#34;Bucks&#34;         &#34;Lakers&#34;        &#34;Trail Blazers&#34; &#34;Knicks&#34;       
+## [21] &#34;Kings&#34;
+</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#75715e"># Create VERTICAL dumbbell with TEAM NAMES</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">ggplot</span>(team_summary, <span style="color:#a6e22e">aes</span>(x <span style="color:#f92672">=</span> <span style="color:#a6e22e">reorder</span>(Team_Name, <span style="color:#f92672">-</span>Gap))) <span style="color:#f92672">+</span>
 </span></span><span style="display:flex;"><span>  
 </span></span><span style="display:flex;"><span>  <span style="color:#75715e"># Connecting lines</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">geom_segment</span>(<span style="color:#a6e22e">aes</span>(y <span style="color:#f92672">=</span> Win_Pct_B2B, yend <span style="color:#f92672">=</span> Win_Pct_Rest, xend <span style="color:#f92672">=</span> Team_ID),
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">geom_segment</span>(<span style="color:#a6e22e">aes</span>(y <span style="color:#f92672">=</span> Win_Pct_B2B, yend <span style="color:#f92672">=</span> Win_Pct_Rest, xend <span style="color:#f92672">=</span> Team_Name),
 </span></span><span style="display:flex;"><span>               size <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>, color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;gray60&#34;</span>, alpha <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.7</span>) <span style="color:#f92672">+</span>
 </span></span><span style="display:flex;"><span>  
 </span></span><span style="display:flex;"><span>  <span style="color:#75715e"># Dots</span>
@@ -215,11 +253,14 @@
 </span></span><span style="display:flex;"><span>    panel.grid.major.y <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_line</span>(color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;gray85&#34;</span>, linetype <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;dashed&#34;</span>, size <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.3</span>),
 </span></span><span style="display:flex;"><span>    panel.grid.minor <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_blank</span>(),
 </span></span><span style="display:flex;"><span>    
-</span></span><span style="display:flex;"><span>    plot.margin <span style="color:#f92672">=</span> <span style="color:#a6e22e">margin</span>(<span style="color:#ae81ff">20</span>, <span style="color:#ae81ff">25</span>, <span style="color:#ae81ff">20</span>, <span style="color:#ae81ff">25</span>)
+</span></span><span style="display:flex;"><span>    plot.margin <span style="color:#f92672">=</span> <span style="color:#a6e22e">margin</span>(<span style="color:#ae81ff">20</span>, <span style="color:#ae81ff">35</span>, <span style="color:#ae81ff">20</span>, <span style="color:#ae81ff">25</span>)
 </span></span><span style="display:flex;"><span>  ) <span style="color:#f92672">+</span>
 </span></span><span style="display:flex;"><span>  
 </span></span><span style="display:flex;"><span>  <span style="color:#75715e"># Y-axis with extra space at top so labels don&#39;t get cut off</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">scale_y_continuous</span>(limits <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">105</span>), breaks <span style="color:#f92672">=</span> <span style="color:#a6e22e">seq</span>(<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">100</span>, <span style="color:#ae81ff">20</span>))
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">scale_y_continuous</span>(limits <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">110</span>), breaks <span style="color:#f92672">=</span> <span style="color:#a6e22e">seq</span>(<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">100</span>, <span style="color:#ae81ff">20</span>)) <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># Add expansion on x-axis to prevent right-side cutoff</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">scale_x_discrete</span>(expand <span style="color:#f92672">=</span> <span style="color:#a6e22e">expansion</span>(add <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">0.5</span>, <span style="color:#ae81ff">0.8</span>)))
 </span></span></code></pre></div><pre tabindex="0"><code>## Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
 ## ℹ Please use `linewidth` instead.
 ## This warning is displayed once every 8 hours.
@@ -234,17 +275,9 @@
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#75715e"># Save as WIDE chart so all teams fit</span>
 </span></span><span style="display:flex;"><span><span style="color:#a6e22e">ggsave</span>(<span style="color:#e6db74">&#34;nba_b2b_vertical.png&#34;</span>, width <span style="color:#f92672">=</span> <span style="color:#ae81ff">18</span>, height <span style="color:#f92672">=</span> <span style="color:#ae81ff">8</span>, dpi <span style="color:#f92672">=</span> <span style="color:#ae81ff">300</span>, bg <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;white&#34;</span>)
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">cat</span>(<span style="color:#e6db74">&#34;\n✓ Chart with readable numbers created!\n&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">cat</span>(<span style="color:#e6db74">&#34;\n✓ Chart with team names created!\n&#34;</span>)
 </span></span></code></pre></div><pre tabindex="0"><code>## 
-## ✓ Chart with readable numbers created!
-</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">cat</span>(<span style="color:#e6db74">&#34;✓ Key improvements:\n&#34;</span>)
-</span></span></code></pre></div><pre tabindex="0"><code>## ✓ Key improvements:
-</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">cat</span>(<span style="color:#e6db74">&#34;  - Numbers have white background boxes for readability\n&#34;</span>)
-</span></span></code></pre></div><pre tabindex="0"><code>##   - Numbers have white background boxes for readability
-</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">cat</span>(<span style="color:#e6db74">&#34;  - Extended Y-axis to prevent label cutoff\n&#34;</span>)
-</span></span></code></pre></div><pre tabindex="0"><code>##   - Extended Y-axis to prevent label cutoff
-</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">cat</span>(<span style="color:#e6db74">&#34;  - Wider format (18 inches) for all teams\n&#34;</span>)
-</span></span></code></pre></div><pre tabindex="0"><code>##   - Wider format (18 inches) for all teams
+## ✓ Chart with team names created!
 </code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">cat</span>(<span style="color:#a6e22e">sprintf</span>(<span style="color:#e6db74">&#34;✓ All %d teams included\n&#34;</span>, <span style="color:#a6e22e">nrow</span>(team_summary)))
 </span></span></code></pre></div><pre tabindex="0"><code>## ✓ All 21 teams included
 </code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#a6e22e">cat</span>(<span style="color:#a6e22e">sprintf</span>(<span style="color:#e6db74">&#34;\nAverage gap: %.1f%%\n&#34;</span>, <span style="color:#a6e22e">mean</span>(team_summary<span style="color:#f92672">$</span>Gap)))

@@ -16,24 +16,24 @@
       <description></description>
     </item>
     <item>
-      <title>NBA</title>
-      <link>/categories/nba/</link>
-      <pubDate>Mon, 08 Dec 2025 00:00:00 +0000</pubDate>
-      <guid>/categories/nba/</guid>
-      <description></description>
-    </item>
-    <item>
       <title>Basketball</title>
       <link>/categories/basketball/</link>
-      <pubDate>Mon, 17 Nov 2025 00:00:00 +0000</pubDate>
+      <pubDate>Mon, 08 Dec 2025 00:00:00 +0000</pubDate>
       <guid>/categories/basketball/</guid>
       <description></description>
     </item>
     <item>
       <title>Defense</title>
       <link>/categories/defense/</link>
-      <pubDate>Mon, 17 Nov 2025 00:00:00 +0000</pubDate>
+      <pubDate>Mon, 08 Dec 2025 00:00:00 +0000</pubDate>
       <guid>/categories/defense/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>NBA</title>
+      <link>/categories/nba/</link>
+      <pubDate>Mon, 08 Dec 2025 00:00:00 +0000</pubDate>
+      <guid>/categories/nba/</guid>
       <description></description>
     </item>
   </channel>
